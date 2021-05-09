@@ -13,8 +13,24 @@ import ProgressBar from './ProgressBar';
 import Switches from './Switches';
 import Tabs from './Tabs';
 import Tooltips from './Tooltips';
+import Statistics from './Statistics';
 
 export {
-  Breadcrumbs, Cards, Carousels, Collapses, Dropdowns, Jumbotrons, ListGroups, Navbars, Navs, Popovers, ProgressBar, Switches, Tabs, Tooltips, Paginations,
+  Breadcrumbs,
+  Cards,
+  Carousels,
+  Collapses,
+  Dropdowns,
+  Jumbotrons,
+  ListGroups,
+  Navbars,
+  Navs,
+  Popovers,
+  ProgressBar,
+  Switches,
+  Tabs,
+  Tooltips,
+  Paginations,
+  Statistics
 };
 

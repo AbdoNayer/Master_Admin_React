@@ -38,11 +38,14 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'));
 const Users = React.lazy(() => import('./views/users/Users'));
 const User = React.lazy(() => import('./views/users/User'));
 
+// Organizations
 const Organizations = React.lazy(() => import('./views/organizations/Organizations'));
 const CreateOrganization = React.lazy(() => import('./views/organizations/CreateOrganization'));
-
+// Plans
 const Plans = React.lazy(() => import('./views/plans/Plans'));
 const CreatePlan = React.lazy(() => import('./views/plans/CreatePlan'));
+// Statistics
+const Statistics = React.lazy(() => import('./views/base/statistics/Statistics'));
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -52,6 +55,8 @@ const routes = [
 
   { path: '/plans/Plans', name: 'Plans', component: Plans },
   { path: '/plans/createPlan', name: 'CreatePlan', component: CreatePlan },
+
+  { path: '/base/statistics', name: 'Statistics', component: Statistics },
 
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/theme', name: 'Theme', component: Colors, exact: true },
