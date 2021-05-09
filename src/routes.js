@@ -38,8 +38,21 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'));
 const Users = React.lazy(() => import('./views/users/Users'));
 const User = React.lazy(() => import('./views/users/User'));
 
+const Organizations = React.lazy(() => import('./views/organizations/Organizations'));
+const CreateOrganization = React.lazy(() => import('./views/organizations/CreateOrganization'));
+
+const Plans = React.lazy(() => import('./views/plans/Plans'));
+const CreatePlan = React.lazy(() => import('./views/plans/CreatePlan'));
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
+
+  { path: '/organizations/organizations', name: 'Organizations', component: Organizations },
+  { path: '/organizations/createOrganization', name: 'CreateOrganization', component: CreateOrganization },
+
+  { path: '/plans/Plans', name: 'Plans', component: Plans },
+  { path: '/plans/createPlan', name: 'CreatePlan', component: CreatePlan },
+
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/theme', name: 'Theme', component: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', component: Colors },
