@@ -5,18 +5,19 @@ import {
   CCardBody,
   CCardHeader,
   CCol,
-  CDataTable,
+  CInputCheckbox,
   CFormGroup,
-  CInput, CInputCheckbox,
   CLabel,
+  CInput,
   CRow,
   CSelect,
 } from '@coreui/react'
-import { FiCheckSquare , FiMinusSquare, FiFileText, FiSettings, FiPlus } from "react-icons/fi";
+import { FiCheckSquare , FiMinusSquare, FiFileText, FiSettings, FiPlus, FiEye, FiEdit } from "react-icons/fi";
 import Statistics from "../base/statistics/Statistics";
 
 
 const Organizations = () => {
+
   const usersData = [
     {
       name: 'John Doe',
@@ -24,8 +25,13 @@ const Organizations = () => {
       current_plan: 'pronze',
       country: 'KSA',
       city: 'Ryadh',
-      // active: <CFormGroup variant="custom-checkbox" inline><CInputCheckbox custom id="inline-checkbox2" name="inline-checkbox2" value="option2" /><CLabel variant="custom-checkbox" htmlFor="inline-checkbox2"/></CFormGroup>,
-      // actions: <CFormGroup variant="custom-checkbox" inline><CInputCheckbox custom id="inline-checkbox2" name="inline-checkbox2" value="option2" /><CLabel variant="custom-checkbox" htmlFor="inline-checkbox2"/></CFormGroup>
+    },
+    {
+      name: 'John Doe',
+      type: 'client',
+      current_plan: 'pronze',
+      country: 'KSA',
+      city: 'Ryadh',
     },
   ]
   const fields = ['name','type', 'current_plan', 'country', 'city', 'active', 'actions']
@@ -100,11 +106,46 @@ const Organizations = () => {
           </div>
         </CCardHeader>
         <CCardBody>
-          <CDataTable
-              items={usersData}
-              fields={fields}
-              pagination
-          />
+          <div className="position-relative table-responsive">
+            <table className="table">
+              <thead>
+              <tr>
+                {
+                  fields.map(valName => (
+                      <th className="">{valName}</th>
+                  ))
+                }
+              </tr>
+              </thead>
+              <tbody>
+              {
+                usersData.map(infoUser => (
+                    <tr className="">
+                      <td className="">{infoUser.name}</td>
+                      <td className="">{infoUser.type}</td>
+                      <td className="">{infoUser.current_plan}</td>
+                      <td className="">{infoUser.country}</td>
+                      <td className="">{infoUser.city}</td>
+                      <td className="">
+                        <CFormGroup variant="custom-checkbox" className='m-0'>
+                          <CInputCheckbox custom id="inline-checkbox2" name="inline-checkbox2" value="option2" />
+                          <CLabel variant="custom-checkbox" htmlFor="inline-checkbox2"/>
+                        </CFormGroup>
+                      </td>
+                      <td className="">
+                        <CButton to="/organizations/detailsOrganization" className='mr-1 ml-1' variant="outline" active color="success" aria-pressed="true">
+                          <FiEye/>
+                        </CButton>
+                        <CButton to="/organizations/createOrganization" className='mr-1 ml-1' variant="outline" active color="danger" aria-pressed="true">
+                          <FiEdit/>
+                        </CButton>
+                      </td>
+                    </tr>
+                ))
+              }
+              </tbody>
+            </table>
+          </div>
         </CCardBody>
       </CCard>
     </>

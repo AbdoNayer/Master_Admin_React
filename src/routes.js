@@ -41,6 +41,7 @@ const User = React.lazy(() => import('./views/users/User'));
 // Organizations
 const Organizations = React.lazy(() => import('./views/organizations/Organizations'));
 const CreateOrganization = React.lazy(() => import('./views/organizations/CreateOrganization'));
+const DetailsOrganization = React.lazy(() => import('./views/organizations/DetailsOrganization'));
 // Plans
 const Plans = React.lazy(() => import('./views/plans/Plans'));
 const CreatePlan = React.lazy(() => import('./views/plans/CreatePlan'));
@@ -52,6 +53,7 @@ const routes = [
 
   { path: '/organizations/organizations', name: 'Organizations', component: Organizations },
   { path: '/organizations/createOrganization', name: 'CreateOrganization', component: CreateOrganization },
+  { path: '/organizations/detailsOrganization', name: 'DetailsOrganization', component: DetailsOrganization },
 
   { path: '/plans/Plans', name: 'Plans', component: Plans },
   { path: '/plans/createPlan', name: 'CreatePlan', component: CreatePlan },

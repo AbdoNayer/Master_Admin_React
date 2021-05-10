@@ -5,8 +5,6 @@ import {
     CProgress,
 } from '@coreui/react'
 
-import CIcon from '@coreui/icons-react'
-
 const Statistics = (data) => {
     return (
         <>
