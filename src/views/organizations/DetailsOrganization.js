@@ -1,31 +1,30 @@
 import React, { useEffect, useState } from 'react'
-import {
-    CCard,
-    CCardBody,
-    CCardHeader,
-    CCol,
-    CFormGroup,
-    CInput,
-    CTextarea, CRow, CButton, CLabel
-} from "@coreui/react";
-import {FiPlus} from "react-icons/fi";
+import { CCard, CCardBody, CCardHeader, CCol, CFormGroup, CInput, CTextarea, CRow, CButton, CLabel } from "@coreui/react";
+import { FiPlus } from "react-icons/fi";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import Axios from "../../actions/Index";
 
-const DetailsOrganizations = () => {
+const DetailsOrganizations = (data, props) => {
+
+    console.log('id ---', props.location.id)
+
     const [images, setImages]               = useState([]);
     const percentage                        = 66;
+
     function fetchData(){
 
-
+        Axios(data, 'organizations/' + props.location.id.id, 'GET').then((response) => {
+            console.log('response ?????', response)
+        }).catch((err) => {
+            console.log('err ---', err)
+        });
 
     }
 
     useEffect(() => {
         fetchData();
     });
-
-
 
     return (
         <>

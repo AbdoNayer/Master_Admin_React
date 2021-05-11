@@ -13,8 +13,10 @@ import {
 
 import ImageUploading from 'react-images-uploading';
 import { FiPlusSquare } from "react-icons/fi";
+import Axios from "../../actions";
 
 const CreateOrganization = () => {
+
   const [images, setImages]               = useState([]);
   const [countries, setCountries]         = useState([]);
   const [cities, setCities]               = useState([]);
@@ -39,7 +41,11 @@ const CreateOrganization = () => {
 
   function fetchData(){
 
-
+    // Axios(data, 'organizations', 'GET').then((response) => {
+    //   console.log('response ?????', response)
+    // }).catch((err) => {
+    //   console.log('err ---', err)
+    // });
 
   }
 
@@ -103,20 +109,30 @@ const CreateOrganization = () => {
   }
 
   function onSubmit (){
-    console.log('avatar', avatar)
-    console.log('name', name)
-    console.log('industry', industry)
-    console.log('identifier', identifier)
-    console.log('phone', phone)
-    console.log('countryId', countryId)
-    console.log('cityId', cityId)
-    console.log('info', info)
-    console.log('dateStart', dateStart)
-    console.log('dateEnd', dateEnd)
-    console.log('payment', payment)
-    console.log('link', link)
-    console.log('secretKey', secretKey)
 
+    const data = {
+      "name": name,
+      "logo": avatar,
+      "organizationType": 44,
+      "industry": industry,
+      "countryId": countryId,
+      "cityId": cityId,
+      "commercialIdentifier": identifier,
+      "about": info,
+      "phone": phone,
+      "apiLink": link,
+      "apiSecret": secretKey,
+      "planId": 44,
+      "startsAt": dateStart,
+      "endsAt": dateEnd,
+      "paymentRef": payment
+    }
+
+    Axios(data, 'organizations', 'GET').then((response) => {
+      console.log('response ?????', response)
+    }).catch((err) => {
+      console.log('err ---', err)
+    });
 
   };
 

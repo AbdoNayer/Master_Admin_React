@@ -122,7 +122,7 @@ CoreUI-React#v3.0.0
 │   ├── App.js
 │   ├── App.test.js
 │   ├── polyfill.js
-│   ├── index.js
+│   ├── Index.js
 │   ├── routes.js    #routes config
 │   └── store.js     #template state example 
 │

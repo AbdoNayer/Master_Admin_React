@@ -1,40 +1,13 @@
-import React, { useState, createRef } from 'react'
-import {
-  CButton,
-  CCard,
-  CCardBody,
-  CCardHeader,
-  CCol,
-  CInputCheckbox,
-  CFormGroup,
-  CLabel,
-  CInput,
-  CRow,
-  CSelect,
-} from '@coreui/react'
-import { FiCheckSquare , FiMinusSquare, FiFileText, FiSettings, FiPlus, FiEye, FiEdit } from "react-icons/fi";
+import React  from 'react'
+import {CCard, CCol, CRow,} from '@coreui/react'
+import { FiCheckSquare , FiMinusSquare, FiFileText, FiSettings } from "react-icons/fi";
 import Statistics from "../base/statistics/Statistics";
 
+import HeaderSection from "../base/sections/HeaderSection";
+import BodySection from "../base/sections/BodySection";
 
 const Organizations = () => {
 
-  const usersData = [
-    {
-      name: 'John Doe',
-      type: 'client',
-      current_plan: 'pronze',
-      country: 'KSA',
-      city: 'Ryadh',
-    },
-    {
-      name: 'John Doe',
-      type: 'client',
-      current_plan: 'pronze',
-      country: 'KSA',
-      city: 'Ryadh',
-    },
-  ]
-  const fields = ['name','type', 'current_plan', 'country', 'city', 'active', 'actions']
   return (
     <>
       <CRow>
@@ -80,76 +53,20 @@ const Organizations = () => {
         </CCol>
       </CRow>
       <CCard>
-        <CCardHeader className='p-4'>
-          <div className='flex flexItemCenter flexSpace'>
-            <div className=''>
-              <div className='flex flexItemCenter'>
-                <FiFileText size={20}/>
-                <h6 className='font-weight-bold m-0 mr-1 ml-1 font-lg'>Organization List</h6>
-              </div>
-            </div>
-            <div className=' flex flexItemCenter'>
-              <CButton color="info" to="/organizations/createOrganization" className='mr-1 ml-1'>
-                <FiPlus/>
-                <span>New Organization</span>
-              </CButton>
-              <CSelect name="active" id="active" className='mr-1 ml-1 w-auto'>
-                <option value="1">active</option>
-              </CSelect>
-              <CSelect name="customer" id="customer" className='mr-1 ml-1 w-auto'>
-                <option value="1">customer</option>
-              </CSelect>
-              <CFormGroup className='m-0 mr-1 ml-1 w-auto'>
-                <CInput id="company" placeholder="search" />
-              </CFormGroup>
-            </div>
-          </div>
-        </CCardHeader>
-        <CCardBody>
-          <div className="position-relative table-responsive">
-            <table className="table">
-              <thead>
-              <tr>
-                {
-                  fields.map(valName => (
-                      <th className="">{valName}</th>
-                  ))
-                }
-              </tr>
-              </thead>
-              <tbody>
-              {
-                usersData.map(infoUser => (
-                    <tr className="">
-                      <td className="">{infoUser.name}</td>
-                      <td className="">{infoUser.type}</td>
-                      <td className="">{infoUser.current_plan}</td>
-                      <td className="">{infoUser.country}</td>
-                      <td className="">{infoUser.city}</td>
-                      <td className="">
-                        <CFormGroup variant="custom-checkbox" className='m-0'>
-                          <CInputCheckbox custom id="inline-checkbox2" name="inline-checkbox2" value="option2" />
-                          <CLabel variant="custom-checkbox" htmlFor="inline-checkbox2"/>
-                        </CFormGroup>
-                      </td>
-                      <td className="">
-                        <CButton to="/organizations/detailsOrganization" className='mr-1 ml-1' variant="outline" active color="success" aria-pressed="true">
-                          <FiEye/>
-                        </CButton>
-                        <CButton to="/organizations/createOrganization" className='mr-1 ml-1' variant="outline" active color="danger" aria-pressed="true">
-                          <FiEdit/>
-                        </CButton>
-                      </td>
-                    </tr>
-                ))
-              }
-              </tbody>
-            </table>
-          </div>
-        </CCardBody>
+        <HeaderSection data={{
+          title : 'organization list',
+          add : 'new organization',
+          url : '/organizations/createOrganization'
+        }}
+        />
+        <BodySection data={{
+          page : 'organizations'
+        }}
+        />
       </CCard>
     </>
   )
+
 }
 
 export default Organizations
