@@ -26,6 +26,7 @@ const CreatePlan = () => {
       desc : 'des'
     },
   ]);
+  const [count, setCount]                 = useState([]);
   const [nameAr, setNameAr]               = useState('');
   const [nameEn, setNameEn]               = useState('');
   const [disAr, setDisAr]                 = useState('');
@@ -50,6 +51,10 @@ const CreatePlan = () => {
 
   };
 
+  const changeCount = (event) => {
+    // setCountryId(event.target.value)
+  }
+
 
   return (
       <>
@@ -57,7 +62,29 @@ const CreatePlan = () => {
           <CCol xs="12" md="12">
             <CCard>
               <CCardHeader className='mb-3 p-4 flex flexItemCenter flexSpace'>
-                <h6>Im Creating :</h6>
+                <div className='flex flexItemCenter'>
+                  <h6 className='m-0'>Im Creating :</h6>
+                  <div className='pr-3 pl-3'>
+                    <CFormGroup variant="custom-radio" inline>
+                      <CInputRadio custom id="inline-radio" name="inline-radios" value="option1" />
+                      <CLabel variant="custom-checkbox" htmlFor="inline-radio">Public</CLabel>
+                    </CFormGroup>
+                    <CFormGroup variant="custom-radio" inline>
+                      <CInputRadio custom id="inline-radio1" name="inline-radios" value="option1" />
+                      <CLabel variant="custom-checkbox" htmlFor="inline-radio1">Custom</CLabel>
+                    </CFormGroup>
+                  </div>
+                </div>
+                <CSelect className='mb-3 w-auto' name="country" id="country" onChange={changeCount.bind(this)}>
+                  <option selected disabled>user Capacity</option>
+                  {
+                    count.map(item => (
+                        <option key={item.value} value={item.id}>
+                          {item.name}
+                        </option>
+                    ))
+                  }
+                </CSelect>
               </CCardHeader>
               <CCardBody>
                 <CFormGroup row>
