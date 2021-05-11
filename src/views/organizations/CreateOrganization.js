@@ -13,7 +13,7 @@ import {
 
 import ImageUploading from 'react-images-uploading';
 import { FiPlusSquare } from "react-icons/fi";
-import Axios from "../../actions";
+import Axios from "../../actions/Index";
 
 const CreateOrganization = () => {
 
@@ -109,6 +109,7 @@ const CreateOrganization = () => {
   }
 
   function onSubmit (){
+
 
     const data = {
       "name": name,
