@@ -15,13 +15,10 @@
     }
   ],
   "homepage": ".",
-  "copyright": "Copyright 2017-2020 creativeLabs Łukasz Holeczek",
+  "copyright": "Master admin for ToSafe",
   "license": "MIT",
   "private": true,
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:coreui/coreui-free-react-admin-template.git"
-  },
+  "repository": "https://github.com/TrendsGCC/tosafe-master-admin.git",
   "dependencies": {
     "@semantic-release/commit-analyzer": "^8.0.1",
     "@semantic-release/exec": "^5.0.0",
