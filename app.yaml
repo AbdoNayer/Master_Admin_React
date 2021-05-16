@@ -1,0 +1,13 @@
+service: tosafe-master
+runtime: nodejs12
+
+instance_class: F1
+entrypoint: npm run start:prod
+
+automatic_scaling:
+  target_cpu_utilization: 0.93
+  min_instances: 1
+  max_instances: 2
+  min_pending_latency: 300ms
+  max_pending_latency: automatic
+  max_concurrent_requests: 50
