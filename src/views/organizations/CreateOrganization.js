@@ -129,8 +129,8 @@ const CreateOrganization = () => {
       "paymentRef": payment
     }
 
-    Axios(data, 'organizations', 'GET').then((response) => {
-      console.log('response ?????', response)
+    Axios(undefined, 'organizations', 'POST').then((response) => {
+      console.log('response ?????', response.data)
     }).catch((err) => {
       console.log('err ---', err)
     });
