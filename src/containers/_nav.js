@@ -18,13 +18,13 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'organizations',
+    name: 'Organizations',
     to: '/organizations/Organizations',
     icon: 'cil-user',
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'plans',
+    name: 'Plans',
     to: '/plans/Plans',
     icon: 'cil-grid',
   },
