@@ -26,6 +26,7 @@ const CreateOrganization = (data) => {
   const [countries, setCountries] = useState([]);
   const [cities, setCities] = useState([]);
   const [arrPackage, setPackage] = useState([]);
+  const [plans, setPlans] = useState([]);
   const [avatar, setAvatar] = useState("");
   const [name, setName] = useState("");
   const [industry, setIndustry] = useState("");
