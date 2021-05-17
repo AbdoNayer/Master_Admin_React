@@ -55,8 +55,8 @@
     "react-scripts": "^4.0.1"
   },
   "scripts": {
-    "start:prod": "node index.js",
-    "start": "react-scripts start",
+    "start:dev": "react-scripts start",
+    "start": "node index.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:cov": "npm test -- --coverage --watchAll=false",

@@ -2,7 +2,7 @@ service: tosafe-master
 runtime: nodejs12
 
 instance_class: F1
-entrypoint: npm run start:prod
+entrypoint: npm run start
 
 automatic_scaling:
   target_cpu_utilization: 0.93
