@@ -14,9 +14,12 @@ import {
 import ImageUploading from 'react-images-uploading';
 import { FiPlusSquare } from "react-icons/fi";
 import Axios from "../../actions/Index";
+import Loading from "../../containers/Loader";
 
-const CreateOrganization = () => {
+const CreateOrganization = (data) => {
 
+  const [allData, setAllData]             = useState(null);
+  const [loader, setLoader]               = useState(false);
   const [images, setImages]               = useState([]);
   const [countries, setCountries]         = useState([]);
   const [cities, setCities]               = useState([]);
@@ -41,18 +44,23 @@ const CreateOrganization = () => {
 
   function fetchData(){
 
-    // Axios(data, 'organizations', 'GET').then((response) => {
-    //   console.log('response ?????', response)
-    // }).catch((err) => {
-    //   console.log('err ---', err)
-    // });
+    if(data.location.data && data.location.data.name === 'update'){
+
+      Axios(null, 'organizations/' + data.location.data.id, 'GET').then((response) => {
+        console.log('response details ------------', response)
+        setAllData(response.data.data)
+      }).catch((err) => {
+        console.log('err ---', err)
+      });
+
+    }
 
   }
 
   useEffect(() => {
     fetchData();
     setOldDate();
-  });
+  }, [setAllData]);
 
   function setOldDate(){
     let dtToday   = new Date();
@@ -109,38 +117,56 @@ const CreateOrganization = () => {
   }
 
   function onSubmit (){
-
-
-    const data = {
-      "name": name,
-      "logo": avatar,
-      "organizationType": 44,
-      "industry": industry,
-      "countryId": countryId,
-      "cityId": cityId,
-      "commercialIdentifier": identifier,
-      "about": info,
-      "phone": phone,
-      "apiLink": link,
-      "apiSecret": secretKey,
-      "planId": 44,
-      "startsAt": dateStart,
-      "endsAt": dateEnd,
-      "paymentRef": payment
+    setLoader(true)
+    const dataVal = {
+      "name"                  : name,
+      "logo"                  : avatar,
+      "organizationType"      : 44,
+      "industry"              : industry,
+      "countryId"             : countryId,
+      "cityId"                : cityId,
+      "commercialIdentifier"  : identifier,
+      "about"                 : info,
+      "phone"                 : phone,
+      "apiLink"               : link,
+      "apiSecret"             : secretKey,
+      "planId"                : 44,
+      "startsAt"              : dateStart,
+      "endsAt"                : dateEnd,
+      "paymentRef"            : payment
     }
 
-    Axios(undefined, 'organizations', 'POST').then((response) => {
-      console.log('response ?????', response.data)
-    }).catch((err) => {
-      console.log('err ---', err)
-    });
+    if(data.location.data && data.location.data.name === 'update') {
+      Axios(dataVal, 'organizations/' + data.location.data.id, 'PUT').then((response) => {
+        data.history.push('/organizations/organizations');
+        setLoader(false)
+      }).catch((err) => {
+        console.log('err ---', err)
+        setLoader(false)
+      });
+    }else {
+      Axios(dataVal, 'organizations', 'POST').then((response) => {
+        data.history.push('/organizations/organizations');
+        setLoader(false)
+      }).catch((err) => {
+        console.log('err ---', err)
+        setLoader(false)
+      });
+    }
+  }
 
-  };
-
+  function loadBody (){
+    if (loader){
+      return(
+          <Loading name='loadBody' value='please wait ...' />
+      );
+    }
+  }
 
   return (
     <>
-      <CRow>
+      <CRow className='position-relative'>
+        {loadBody()}
         <CCol xs="12" md="12">
           <CCard>
             <CCardHeader className='mb-5 p-4 flex flexItemCenter flexSpace'>

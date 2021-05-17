@@ -11,41 +11,58 @@ import {
   CLabel,
   CTextarea,
   CRow,
-  CInputCheckbox,
 } from "@coreui/react";
 import Axios from "../../actions/Index";
 import CIcon from "@coreui/icons-react";
+import { FiCheck, FiGrid } from "react-icons/fi";
+import Loading from "../../containers/Loader";
 
-const CreatePlan = () => {
+const CreatePlan = (data) => {
 
-  const [modules, setModules] = useState([]);
-  const [selectedModules, setSelectedModules] = useState([]);
-  const [count, setCount] = useState([]);
-  const [nameAr, setNameAr] = useState("");
-  const [nameEn, setNameEn] = useState("");
-  const [disAr, setDisAr] = useState("");
-  const [disEn, setDisEn] = useState("");
-  const [priceYear, setPriceYear] = useState("");
-  const [priceMonth, setPriceMonth] = useState("");
+  const [allData, setAllData]                   = useState(null);
+  const [loader, setLoader]                     = useState(false);
+  const [modules, setModules]                   = useState([]);
+  const [selectedModules, setSelectedModules]   = useState([]);
+  const [count, setCount]                       = useState([]);
+  const [nameAr, setNameAr]                     = useState("");
+  const [nameEn, setNameEn]                     = useState("");
+  const [disAr, setDisAr]                       = useState("");
+  const [disEn, setDisEn]                       = useState("");
+  const [priceYear, setPriceYear]               = useState("");
+  const [priceMonth, setPriceMonth]             = useState("");
+
+  function fetchData(){
+
+    if(data.location.data && data.location.data.name === 'update'){
+
+      Axios(null, 'plans/' + data.location.data.id, 'GET').then((response) => {
+        console.log('response details ------------', response)
+        setAllData(response.data.data)
+      }).catch((err) => {
+        console.log('err ---', err)
+      });
+
+    }
+
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [setAllData]);
 
   useEffect(() => {
     async function fetchData() {
-      // You can await here
       const response = await Axios({}, "modules", "GET");
-      console.log(response);
       setModules(response.data);
-    }
-    try {
+    }try {
       fetchData();
     } catch (error) {
       console.log("err ---", error);
     }
   }, []);
 
-  function onSubmit() {}
-
   const triggerModule = (id) => {
-    console.log(id);
+
     const arr = [...selectedModules];
     const index = arr.indexOf(id);
 
@@ -54,14 +71,58 @@ const CreatePlan = () => {
     } else {
       arr.push(id);
     }
-    console.log(arr);
+
     setSelectedModules(arr);
-    
+
   };
+
+  function onSubmit (){
+    setLoader(true)
+    const dataVal = {
+      "nameAr"            : nameAr,
+      "nameEn"            : nameEn,
+      "descriptionAr"     : disAr,
+      "descriptionEn"     : disEn,
+      "isCustom"          : true,
+      "userCapacity"      : count,
+      "pricePerMonth"     : priceMonth,
+      "pricePerYear"      : priceYear,
+      "modules"           : selectedModules,
+      "id"                : "string"
+    }
+
+    if(data.location.data && data.location.data.name === 'update') {
+      Axios(dataVal, 'plans/' + data.location.data.id, 'PUT').then((response) => {
+        data.history.push('/plans/plans');
+        setLoader(false)
+      }).catch((err) => {
+        console.log('err ---', err)
+        setLoader(false)
+      });
+    }else {
+      Axios(dataVal, 'plans', 'POST').then((response) => {
+        data.history.push('/plans/plans');
+        setLoader(false)
+      }).catch((err) => {
+        console.log('err ---', err)
+        setLoader(false)
+      });
+    }
+
+  }
+
+  function loadBody (){
+    if (loader){
+      return(
+          <Loading name='loadBody' value='please wait ...' />
+      );
+    }
+  }
 
   return (
     <>
-      <CRow>
+      <CRow className='position-relative'>
+        {loadBody()}
         <CCol xs="12" md="12">
           <CCard>
             <CCardHeader className="mb-3 p-4 flex flexItemCenter flexSpace">
@@ -72,8 +133,8 @@ const CreatePlan = () => {
             </CCardHeader>
             <CCardBody>
               <CFormGroup row>
-                <CCol xs="12" md="6">
-                  <div className="flex flexItemCenter">
+                <CCol xs="12" md="12">
+                  <div className="flex flexItemCenter mb-4">
                     <h6 className="m-0">Im Creating :</h6>
                     <div className="pr-3 pl-3">
                       <CFormGroup variant="custom-radio" inline>
@@ -107,21 +168,6 @@ const CreatePlan = () => {
                     </div>
                   </div>
                 </CCol>
-                <CCol xs="12" md="6">
-                  <CFormGroup variant="custom-checkbox" className="m-0 p-0">
-                    <CLabel htmlFor="count">User Capacity (by User)</CLabel>
-                    <CInput
-                      className="mb-3"
-                      name="count"
-                      placeholder="Plan Capacity (by User)"
-                      id="count"
-                      type="number"
-                      value={count}
-                      onChange={(e) => setCount(e.target.value)}
-                    ></CInput>
-                  </CFormGroup>
-                </CCol>
-
                 <CCol xs="12" md="6">
                   <CInput
                     className="mb-3"
@@ -158,7 +204,7 @@ const CreatePlan = () => {
                     placeholder="description english"
                   />
                 </CCol>
-                <CCol xs="12" md="6">
+                <CCol xs="12" md="4">
                   <CInput
                     className="mb-3"
                     type="text"
@@ -167,7 +213,7 @@ const CreatePlan = () => {
                     onChange={(e) => setPriceYear(e.target.value)}
                   />
                 </CCol>
-                <CCol xs="12" md="6">
+                <CCol xs="12" md="4">
                   <CInput
                     className="mb-3"
                     type="text"
@@ -176,53 +222,37 @@ const CreatePlan = () => {
                     onChange={(e) => setPriceMonth(e.target.value)}
                   />
                 </CCol>
+                <CCol xs="12" md="4">
+                  <CInput
+                      className="mb-3"
+                      type="tel"
+                      placeholder="Plan Capacity (by User)"
+                      value={count}
+                      onChange={(e) => setCount(e.target.value)}
+                  />
+                </CCol>
               </CFormGroup>
 
-              {modules.map((m) => (
+              { modules.map((m) => (
                 <CFormGroup key={m.id} row>
                   <CCol xs="12" md="12">
-                    <div className="flex flexItemCenter flexSpace">
-                      <h3>{m.nameEn}</h3>
-                      {/* <CFormGroup variant="custom-checkbox" className="m-0 p-0">
-                        <CInputCheckbox
-                          custom
-                          id="inline-checkbox2"
-                          name="inline-checkbox"
-                          value="option2"
-                        />
-                        <CLabel
-                          variant="custom-checkbox"
-                          htmlFor="inline-checkbox"
-                        >
-                          Check All
-                        </CLabel>
-                      </CFormGroup> */}
+                    <div className="flex flexItemCenter">
+                      <FiGrid/>
+                      <h3 className='m-0'>{m.nameEn}</h3>
                     </div>
                     <CFormGroup row>
-                      {m.children.map((pack) => (
+                      { m.children.map((pack) => (
                         <CCol key={pack.id} xs="12" sm="6" md="3">
-                          <CCard
-                            onClick={() => {
-                              triggerModule(pack.id);
-                            }}
-                            className="mt-3 mb-3"
-                          >
-                            {/* <CCardHeader>
-                              <div className="card-header-actions m-0">
-                              </div>
-                            </CCardHeader> */}
-                            <CCardBody className="text-center">
-                                {(selectedModules.indexOf(pack.id) > 0) && (
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
-                                  </svg>
-                                )}
-                              <h4 className="text-info">{pack.nameEn}</h4>
+                          <CCard onClick={() => {triggerModule(pack.id)}} className="mt-3 mb-3 cardBlock">
+                            <CCardBody className="text-center position-relative flexContentCenter flex flexItemCenter">
+                                {
+                                  (selectedModules.indexOf(pack.id) > 0) && (
+                                    <div className='chick'>
+                                      <FiCheck size={20} />
+                                    </div>
+                                  )
+                                }
+                              <h4 className="text-dark">{pack.nameEn}</h4>
                             </CCardBody>
                           </CCard>
                         </CCol>

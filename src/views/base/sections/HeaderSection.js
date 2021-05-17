@@ -1,13 +1,50 @@
 import React, {useState} from 'react'
 import { CButton, CCardHeader,CFormGroup, CInput, CSelect } from '@coreui/react'
 import {FiFileText, FiPlus} from "react-icons/fi";
+import Axios from "../../../actions/Index";
 
-const HeaderSection = (data) => {
+function HeaderSection (data) {
 
-    const [allActive, setAllActive]             = useState([]);
-    const [allType, setAllType]                 = useState([]);
+    const [allActive, setAllActive]             = useState([
+        { id : 188, val : 'true' },
+        { id : 288, val : 'false' }
+    ]);
+    const [allType, setAllType]                 = useState([
+        { id : 133, val : 'client' },
+        { id : 233, val : 'maintainance_company' }
+    ]);
+    const [type, setType]                       = useState('');
+    const [active, setActive]                   = useState('');
+    const [search, setSearch]                   = useState('');
 
 
+    const changeActive = (event) => {
+        setActive(event.target.value)
+        const dataVal = {
+            "active"        : event.target.value,
+            "type"          : type,
+            "search"        : search,
+        }
+        Axios(dataVal, data.data.page === 'plans' ? 'plans' : 'organizations', 'GET').then((response) => {
+            console.log('response active ---------', response)
+        }).catch((err) => {
+            console.log('err ---', err)
+        });
+    }
+
+    const changeType = (event) => {
+        setType(event.target.value)
+        const dataVal = {
+            "active"        : active,
+            "type"          : event.target.value,
+            "search"        : search,
+        }
+        Axios(dataVal, data.data.page === 'plans' ? 'plans' : 'organizations', 'GET').then((response) => {
+            console.log('response active ---------', response)
+        }).catch((err) => {
+            console.log('err ---', err)
+        });
+    }
 
     return (
         <>
@@ -24,22 +61,22 @@ const HeaderSection = (data) => {
                             <FiPlus/>
                             <span>{data.data.add}</span>
                         </CButton>
-                        <CSelect name="active" id="active" className='mr-1 ml-1 w-auto'>
+                        <CSelect name="active" id="active" className='mr-1 ml-1 w-auto' onChange={changeActive.bind(this)}>
                             <option selected disabled>active</option>
                             {
                                 allActive.map(item => (
-                                    <option key={item.value} value={item.id}>
-                                        {item.name}
+                                    <option key={item.id} value={item.val}>
+                                        {item.val}
                                     </option>
                                 ))
                             }
                         </CSelect>
-                        <CSelect name="customer" id="customer" className='mr-1 ml-1 w-auto'>
+                        <CSelect name="customer" id="customer" className='mr-1 ml-1 w-auto' onChange={changeType.bind(this)}>
                             <option selected disabled>type</option>
                             {
                                 allType.map(item => (
-                                    <option key={item.value} value={item.id}>
-                                        {item.name}
+                                    <option key={item.id} value={item.val}>
+                                        {item.val}
                                     </option>
                                 ))
                             }

@@ -5,26 +5,32 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import Axios from "../../actions/Index";
 
-const DetailsOrganizations = (data, props) => {
+function DetailsOrganizations (data) {
 
-    console.log('id ---', props.location.id)
-
+    const [allData, setAllData]             = useState(null);
     const [images, setImages]               = useState([]);
     const percentage                        = 66;
 
     function fetchData(){
 
-        Axios(data, 'organizations/' + props.location.id.id, 'GET').then((response) => {
-            console.log('response ?????', response)
-        }).catch((err) => {
-            console.log('err ---', err)
-        });
+        if(data.location.id === undefined || data.location.id === null){
+
+            data.history.push('/organizations/organizations');
+
+        }else {
+            Axios(null, 'organizations/' + data.location.id.id, 'GET').then((response) => {
+                console.log('response details ------------', response)
+                setAllData(response.data.data)
+            }).catch((err) => {
+                console.log('err ---', err)
+            });
+        }
 
     }
 
     useEffect(() => {
         fetchData();
-    });
+    }, [setAllData]);
 
     return (
         <>
