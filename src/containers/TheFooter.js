@@ -10,7 +10,7 @@ const TheFooter = () => {
       </div>
       <div className="mfs-auto">
         <span className="mr-1">Powered by</span>
-        <a href="https://trendsgcc.com" target="_blank" rel="noopener noreferrer"></a>
+        <a href="https://trendsgcc.com" target="_blank" rel="noopener noreferrer">TrendsGCC</a>
       </div>
     </CFooter>
   )

@@ -40,8 +40,8 @@ const CreateOrganization = (data) => {
   const [link, setLink] = useState("");
   const [secretKey, setSecretKey] = useState("");
   const [minDate, setMinDate] = useState("");
-  const [fade, setFade] = useState(true);
-  const [fade2, setFade2] = useState(false);
+  const [isClientOrganization, setIsClientOrganization] = useState(true);
+  const [isStandardSetup, setIsStandardSetup] = useState(false);
   const maxNumber = 1;
 
   function fetchData() {
@@ -58,6 +58,16 @@ const CreateOrganization = (data) => {
   }
 
   useEffect(() => {
+    async function fetchPlans() {
+      const response = await Axios({}, `plans/?type=${isClientOrganization ? 'client' : 'maintenance_company'}`, "GET");
+      setPlans(response.data);
+    }
+
+    try {
+      fetchPlans();
+    } catch (error) {
+      console.log("err ---", error);
+    }
     fetchData();
     setOldDate();
   }, [setAllData]);
@@ -92,12 +102,12 @@ const CreateOrganization = (data) => {
 
   function toggleShow(val) {
     if (val === "on") {
-      setFade(true);
+      setIsClientOrganization(true);
       setLink("");
       setSecretKey("");
     } else {
-      setFade(false);
-      setFade2(false);
+      setIsClientOrganization(false);
+      setIsStandardSetup(false);
       setLink("");
       setSecretKey("");
       setPayment("");
@@ -106,9 +116,9 @@ const CreateOrganization = (data) => {
 
   function toggleShow2(val) {
     if (val === "on") {
-      setFade2(true);
+      setIsStandardSetup(true);
     } else {
-      setFade2(false);
+      setIsStandardSetup(false);
       setLink("");
       setSecretKey("");
     }
@@ -119,7 +129,7 @@ const CreateOrganization = (data) => {
     const dataVal = {
       name: name,
       logo: avatar,
-      organizationType: 44,
+      organizationType: isClientOrganization ? 'client' : 'maintenance_company',
       industry: industry,
       countryId: countryId,
       cityId: cityId,
@@ -174,11 +184,12 @@ const CreateOrganization = (data) => {
             </CCardHeader>
             <CCardBody>
               <CFormGroup row>
+                <CCol xs="12" md="4">
                   <h6>Im Creating :</h6>
                   <div className="flex flexItemCenter">
                     <CButton
                       className={
-                        fade ? "mr-2 ml-2 bg-info text-white" : "mr-2 ml-2"
+                        isClientOrganization ? "mr-2 ml-2 bg-info text-white" : "mr-2 ml-2"
                       }
                       onClick={() => toggleShow("on")}
                     >
@@ -186,13 +197,14 @@ const CreateOrganization = (data) => {
                     </CButton>
                     <CButton
                       className={
-                        !fade ? "mr-2 ml-2 bg-info text-white" : "mr-2 ml-2"
+                        !isClientOrganization ? "mr-2 ml-2 bg-info text-white" : "mr-2 ml-2"
                       }
                       onClick={() => toggleShow("off")}
                     >
                       Maintainance Company
                     </CButton>
                   </div>
+                </CCol>
               </CFormGroup>
               <CFormGroup row>
                 <CCol xs="12" md="4">
@@ -353,16 +365,16 @@ const CreateOrganization = (data) => {
                 <div className="flex flexItemCenter">
                   <CButton
                     className={
-                      !fade2 ? "mr-2 ml-2 bg-info text-white" : "mr-2 ml-2"
+                      !isStandardSetup ? "mr-2 ml-2 bg-info text-white" : "mr-2 ml-2"
                     }
                     onClick={() => toggleShow2("off")}
                   >
                     Standard
                   </CButton>
-                  {fade ? (
+                  {isClientOrganization ? (
                     <CButton
                       className={
-                        fade2 ? "mr-2 ml-2 bg-info text-white" : "mr-2 ml-2"
+                        isStandardSetup ? "mr-2 ml-2 bg-info text-white" : "mr-2 ml-2"
                       }
                       onClick={() => toggleShow2("on")}
                     >
@@ -427,7 +439,7 @@ const CreateOrganization = (data) => {
                     onChange={(e) => setDateEnd(e.target.value)}
                   />
                 </CCol>
-                {fade ? (
+                {isClientOrganization ? (
                   <CCol xs="12" md="4">
                     <CLabel htmlFor="date-input">payment ref</CLabel>
                     <CInput
@@ -438,7 +450,7 @@ const CreateOrganization = (data) => {
                   </CCol>
                 ) : null}
               </CFormGroup>
-              {fade2 ? (
+              {isStandardSetup ? (
                 <CFormGroup row>
                   <CCol xs="12" md="6">
                     <CLabel htmlFor="date-input">installation link</CLabel>
