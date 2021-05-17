@@ -18,32 +18,29 @@ import { FiCheck, FiGrid } from "react-icons/fi";
 import Loading from "../../containers/Loader";
 
 const CreatePlan = (data) => {
+  const [allData, setAllData] = useState(null);
+  const [loader, setLoader] = useState(false);
+  const [modules, setModules] = useState([]);
+  const [selectedModules, setSelectedModules] = useState([]);
+  const [count, setCount] = useState([]);
+  const [nameAr, setNameAr] = useState("");
+  const [nameEn, setNameEn] = useState("");
+  const [disAr, setDisAr] = useState("");
+  const [disEn, setDisEn] = useState("");
+  const [priceYear, setPriceYear] = useState("");
+  const [priceMonth, setPriceMonth] = useState("");
 
-  const [allData, setAllData]                   = useState(null);
-  const [loader, setLoader]                     = useState(false);
-  const [modules, setModules]                   = useState([]);
-  const [selectedModules, setSelectedModules]   = useState([]);
-  const [count, setCount]                       = useState([]);
-  const [nameAr, setNameAr]                     = useState("");
-  const [nameEn, setNameEn]                     = useState("");
-  const [disAr, setDisAr]                       = useState("");
-  const [disEn, setDisEn]                       = useState("");
-  const [priceYear, setPriceYear]               = useState("");
-  const [priceMonth, setPriceMonth]             = useState("");
-
-  function fetchData(){
-
-    if(data.location.data && data.location.data.name === 'update'){
-
-      Axios(null, 'plans/' + data.location.data.id, 'GET').then((response) => {
-        console.log('response details ------------', response)
-        setAllData(response.data.data)
-      }).catch((err) => {
-        console.log('err ---', err)
-      });
-
+  function fetchData() {
+    if (data.location.data && data.location.data.name === "update") {
+      Axios(null, "plans/" + data.location.data.id, "GET")
+        .then((response) => {
+          console.log("response details ------------", response);
+          setAllData(response.data.data);
+        })
+        .catch((err) => {
+          console.log("err ---", err);
+        });
     }
-
   }
 
   useEffect(() => {
@@ -54,7 +51,8 @@ const CreatePlan = (data) => {
     async function fetchData() {
       const response = await Axios({}, "modules", "GET");
       setModules(response.data);
-    }try {
+    }
+    try {
       fetchData();
     } catch (error) {
       console.log("err ---", error);
@@ -62,7 +60,6 @@ const CreatePlan = (data) => {
   }, []);
 
   const triggerModule = (id) => {
-
     const arr = [...selectedModules];
     const index = arr.indexOf(id);
 
@@ -73,55 +70,55 @@ const CreatePlan = (data) => {
     }
 
     setSelectedModules(arr);
-
   };
 
-  function onSubmit (){
-    setLoader(true)
+  function onSubmit() {
+    setLoader(true);
     const dataVal = {
-      "nameAr"            : nameAr,
-      "nameEn"            : nameEn,
-      "descriptionAr"     : disAr,
-      "descriptionEn"     : disEn,
-      "isCustom"          : true,
-      "userCapacity"      : count,
-      "pricePerMonth"     : priceMonth,
-      "pricePerYear"      : priceYear,
-      "modules"           : selectedModules,
-      "id"                : "string"
-    }
+      nameAr: nameAr,
+      nameEn: nameEn,
+      descriptionAr: disAr,
+      descriptionEn: disEn,
+      isCustom: true,
+      userCapacity: count,
+      pricePerMonth: priceMonth,
+      pricePerYear: priceYear,
+      modules: selectedModules,
+      id: "string",
+    };
 
-    if(data.location.data && data.location.data.name === 'update') {
-      Axios(dataVal, 'plans/' + data.location.data.id, 'PUT').then((response) => {
-        data.history.push('/plans/plans');
-        setLoader(false)
-      }).catch((err) => {
-        console.log('err ---', err)
-        setLoader(false)
-      });
-    }else {
-      Axios(dataVal, 'plans', 'POST').then((response) => {
-        data.history.push('/plans/plans');
-        setLoader(false)
-      }).catch((err) => {
-        console.log('err ---', err)
-        setLoader(false)
-      });
+    if (data.location.data && data.location.data.name === "update") {
+      Axios(dataVal, "plans/" + data.location.data.id, "PUT")
+        .then((response) => {
+          data.history.push("/plans/plans");
+          setLoader(false);
+        })
+        .catch((err) => {
+          console.log("err ---", err);
+          setLoader(false);
+        });
+    } else {
+      Axios(dataVal, "plans", "POST")
+        .then((response) => {
+          data.history.push("/plans/plans");
+          setLoader(false);
+        })
+        .catch((err) => {
+          console.log("err ---", err);
+          setLoader(false);
+        });
     }
-
   }
 
-  function loadBody (){
-    if (loader){
-      return(
-          <Loading name='loadBody' value='please wait ...' />
-      );
+  function loadBody() {
+    if (loader) {
+      return <Loading name="loadBody" value="please wait ..." />;
     }
   }
 
   return (
     <>
-      <CRow className='position-relative'>
+      <CRow className="position-relative">
         {loadBody()}
         <CCol xs="12" md="12">
           <CCard>
@@ -224,34 +221,37 @@ const CreatePlan = (data) => {
                 </CCol>
                 <CCol xs="12" md="4">
                   <CInput
-                      className="mb-3"
-                      type="tel"
-                      placeholder="Plan Capacity (by User)"
-                      value={count}
-                      onChange={(e) => setCount(e.target.value)}
+                    className="mb-3"
+                    type="tel"
+                    placeholder="Plan Capacity (by User)"
+                    value={count}
+                    onChange={(e) => setCount(e.target.value)}
                   />
                 </CCol>
               </CFormGroup>
 
-              { modules.map((m) => (
+              {modules.map((m) => (
                 <CFormGroup key={m.id} row>
                   <CCol xs="12" md="12">
                     <div className="flex flexItemCenter">
-                      <FiGrid/>
-                      <h3 className='m-0'>{m.nameEn}</h3>
+                      <FiGrid />
+                      <h3 className="m-0">{m.nameEn}</h3>
                     </div>
                     <CFormGroup row>
-                      { m.children.map((pack) => (
+                      {m.children.map((pack) => (
                         <CCol key={pack.id} xs="12" sm="6" md="3">
-                          <CCard onClick={() => {triggerModule(pack.id)}} className="mt-3 mb-3 cardBlock">
+                          <CCard
+                            onClick={() => {
+                              triggerModule(pack.id);
+                            }}
+                            className="mt-3 mb-3 cardBlock"
+                          >
                             <CCardBody className="text-center position-relative flexContentCenter flex flexItemCenter">
-                                {
-                                  (selectedModules.indexOf(pack.id) > 0) && (
-                                    <div className='chick'>
-                                      <FiCheck size={20} />
-                                    </div>
-                                  )
-                                }
+                              {selectedModules.indexOf(pack.id) > 0 && (
+                                <div className="chick">
+                                  <FiCheck size={20} />
+                                </div>
+                              )}
                               <h4 className="text-dark">{pack.nameEn}</h4>
                             </CCardBody>
                           </CCard>
