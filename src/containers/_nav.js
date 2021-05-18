@@ -7,10 +7,10 @@ const _nav = [
     name: "Dashboard",
     to: "/dashboard",
     icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
-    badge: {
-      color: "info",
-      text: "NEW",
-    },
+    // badge: {
+    //   color: "info",
+    //   text: "NEW",
+    // },
   },
   {
     _tag: "CSidebarNavTitle",
@@ -66,13 +66,13 @@ const _nav = [
     _tag: "CSidebarNavItem",
     name: "About Us",
     to: "/",
-    icon: "cil-info-alt",
+    icon: <CIcon name="cil-chart-pie" customClasses="c-sidebar-nav-icon" />,
   },
   {
     _tag: "CSidebarNavItem",
     name: "News",
     to: "/",
-    icon: "cil-globe",
+    icon: <CIcon name="cil-basket" customClasses="c-sidebar-nav-icon" />,
   },
   {
     _tag: "CSidebarNavItem",

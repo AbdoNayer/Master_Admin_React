@@ -26,6 +26,7 @@ const Organizations = () => {
       console.log("err ---", error);
     }
   }, []);
+
   return (
     <>
       <CRow>
@@ -90,7 +91,7 @@ const Organizations = () => {
         <HeaderSection
           data={{
             title: "organization list",
-            add: "new organization",
+            add: "New Organization",
             url: "/organizations/createOrganization",
           }}
         />
