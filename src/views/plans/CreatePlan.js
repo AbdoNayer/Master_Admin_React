@@ -30,22 +30,22 @@ const CreatePlan = (data) => {
   const [priceYear, setPriceYear] = useState("");
   const [priceMonth, setPriceMonth] = useState("");
 
-  function fetchData() {
-    if (data.location.data && data.location.data.name === "update") {
-      Axios(null, "plans/" + data.location.data.id, "GET")
-        .then((response) => {
-          console.log("response details ------------", response);
-          setAllData(response.data.data);
-        })
-        .catch((err) => {
-          console.log("err ---", err);
-        });
-    }
-  }
+  // function fetchData() {
+  //   if (data.location.data && data.location.data.name === "update") {
+  //     Axios(null, "plans/" + data.location.data.id, "GET")
+  //       .then((response) => {
+  //         console.log("response details ------------", response);
+  //         setAllData(response.data.data);
+  //       })
+  //       .catch((err) => {
+  //         console.log("err ---", err);
+  //       });
+  //   }
+  // }
 
-  useEffect(() => {
-    fetchData();
-  }, [setAllData]);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [setAllData]);
 
   useEffect(() => {
     async function fetchData() {
@@ -84,7 +84,6 @@ const CreatePlan = (data) => {
       pricePerMonth: priceMonth,
       pricePerYear: priceYear,
       modules: selectedModules,
-      id: "string",
     };
 
     if (data.location.data && data.location.data.name === "update") {

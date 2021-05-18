@@ -25,7 +25,7 @@ const CreateOrganization = (data) => {
   const [images, setImages] = useState([]);
   const [countries, setCountries] = useState([]);
   const [cities, setCities] = useState([]);
-  const [arrPackage, setPackage] = useState([]);
+  // const [plans, setPackage] = useState([]);
   const [plans, setPlans] = useState([]);
   const [avatar, setAvatar] = useState("");
   const [name, setName] = useState("");
@@ -57,10 +57,11 @@ const CreateOrganization = (data) => {
         });
     }
   }
-
+  
   useEffect(() => {
     async function fetchPlans() {
-      const response = await Axios({}, `plans/?type=${isClientOrganization ? 'client' : 'maintenance_company'}`, "GET");
+      console.log(isClientOrganization);
+      const response = await Axios({}, `plans/?type=${isStandardSetup ? 'standard' : 'standalone'}`, "GET");
       setPlans(response.data);
     }
 
@@ -388,7 +389,7 @@ const CreateOrganization = (data) => {
                 <CCol xs="12" md="12">
                   <h6>Choose one of this plan to subscribe to :</h6>
                 </CCol>
-                {arrPackage.map((pack) => (
+                {plans.map((pack) => (
                   <CCol xs="12" sm="6" md="3">
                     <CCard className="mt-3 mb-3">
                       <CCardHeader>
@@ -432,7 +433,7 @@ const CreateOrganization = (data) => {
                   />
                 </CCol>
                 <CCol xs="12" md="4">
-                  <CLabel htmlFor="date-input">end at</CLabel>
+                  <CLabel htmlFor="date-input">Ends At</CLabel>
                   <CInput
                     type="date"
                     min={minDate}
@@ -442,7 +443,7 @@ const CreateOrganization = (data) => {
                 </CCol>
                 {isClientOrganization ? (
                   <CCol xs="12" md="4">
-                    <CLabel htmlFor="date-input">payment ref</CLabel>
+                    <CLabel htmlFor="date-input">Payment Reference</CLabel>
                     <CInput
                       type="text"
                       value={payment}
@@ -454,7 +455,7 @@ const CreateOrganization = (data) => {
               {isStandardSetup ? (
                 <CFormGroup row>
                   <CCol xs="12" md="6">
-                    <CLabel htmlFor="date-input">installation link</CLabel>
+                    <CLabel htmlFor="date-input">Installation link</CLabel>
                     <CInput
                       type="text"
                       value={link}
@@ -462,7 +463,7 @@ const CreateOrganization = (data) => {
                     />
                   </CCol>
                   <CCol xs="12" md="6">
-                    <CLabel htmlFor="date-input">secret key</CLabel>
+                    <CLabel htmlFor="date-input">Secret Key</CLabel>
                     <CInput
                       type="text"
                       value={secretKey}

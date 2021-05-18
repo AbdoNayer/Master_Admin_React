@@ -11,6 +11,7 @@ function BodySection (data) {
     const [usersData, setUsersData]               = useState([]);
     const [loader, setLoader]                     = useState(true);
     const [fields, setFields]                     = useState([
+        'logo',
         'name',
         'type',
         'current_plan',
@@ -77,11 +78,12 @@ function BodySection (data) {
                                     usersData.map((infoUser , i) => (
                                         <tr className="" key={i}>
                                             <td className=""><img src={infoUser.logo} alt="" className='logoTab'/></td>
+                                            <td className="">{infoUser.name}</td>
                                             <td className="">{infoUser.organizationType}</td>
                                             <td className="">{infoUser.activeSubscription}</td>
                                             <td className="">
                                                 <CFormGroup variant="custom-checkbox" className='m-0'>
-                                                    <CInputCheckbox defaultChecked disabled custom id="inline-checkbox2" name="inline-checkbox2" value="option2" />
+                                                    <CInputCheckbox defaultChecked disabled custom id="inline-checkbox2" name="inline-checkbox2" value={infoUser.isActive} />
                                                     <CLabel variant="custom-checkbox" htmlFor="inline-checkbox2"/>
                                                 </CFormGroup>
                                             </td>
