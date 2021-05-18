@@ -20,11 +20,6 @@
   "private": true,
   "repository": "https://github.com/TrendsGCC/tosafe-master-admin.git",
   "dependencies": {
-    "@semantic-release/commit-analyzer": "^8.0.1",
-    "@semantic-release/exec": "^5.0.0",
-    "@semantic-release/git": "^9.0.0",
-    "@semantic-release/github": "^7.2.3",
-    "@semantic-release/release-notes-generator": "^9.0.2",
     "@coreui/chartjs": "^2.0.0",
     "@coreui/coreui": "^3.4.0",
     "@coreui/icons": "^2.0.0-rc.0",
@@ -32,6 +27,11 @@
     "@coreui/react": "^3.4.0",
     "@coreui/react-chartjs": "^1.0.1",
     "@coreui/utils": "^1.3.1",
+    "@semantic-release/commit-analyzer": "^8.0.1",
+    "@semantic-release/exec": "^5.0.0",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/github": "^7.2.3",
+    "@semantic-release/release-notes-generator": "^9.0.2",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.3.2",
     "axios": "^0.21.1",
     "classnames": "^2.2.6",
@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "auto-changelog": "~2.2.1",
-    "react-scripts": "^4.0.1"
+    "react-scripts": "^4.0.3"
   },
   "scripts": {
     "start:dev": "react-scripts start",
