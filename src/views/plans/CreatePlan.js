@@ -7,8 +7,6 @@ import {
   CCol,
   CFormGroup,
   CInput,
-  CInputRadio,
-  CLabel,
   CTextarea,
   CRow,
 } from "@coreui/react";
@@ -16,13 +14,17 @@ import Axios from "../../actions/Index";
 import CIcon from "@coreui/icons-react";
 import { FiCheck, FiGrid } from "react-icons/fi";
 import Loading from "../../containers/Loader";
+import { FaCircle } from "react-icons/fa";
 
 const CreatePlan = (data) => {
+  const [errToasts, setErrToasts] = useState(false);
+  const [toastMass, setToastMass] = useState('');
   const [allData, setAllData] = useState(null);
   const [loader, setLoader] = useState(false);
   const [modules, setModules] = useState([]);
   const [selectedModules, setSelectedModules] = useState([]);
-  const [count, setCount] = useState([]);
+  const [count, setCount] = useState('');
+  const [isCustom, setIsCustom] = useState('');
   const [nameAr, setNameAr] = useState("");
   const [nameEn, setNameEn] = useState("");
   const [disAr, setDisAr] = useState("");
@@ -30,30 +32,40 @@ const CreatePlan = (data) => {
   const [priceYear, setPriceYear] = useState("");
   const [priceMonth, setPriceMonth] = useState("");
 
-  // function fetchData() {
-  //   if (data.location.data && data.location.data.name === "update") {
-  //     Axios(null, "plans/" + data.location.data.id, "GET")
-  //       .then((response) => {
-  //         console.log("response details ------------", response);
-  //         setAllData(response.data.data);
-  //       })
-  //       .catch((err) => {
-  //         console.log("err ---", err);
-  //       });
-  //   }
-  // }
+  function fetchData() {
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, [setAllData]);
+    if (data.location.data && data.location.data.name === "update") {
+
+      Axios(null, "plans/" + data.location.data.id, "GET").then((response) => {
+
+        setNameAr(response.data.nameAr)
+        setNameEn(response.data.nameEn)
+        setDisAr(response.data.descriptionAr)
+        setDisEn(response.data.descriptionEn)
+        setPriceYear(response.data.pricePerYear)
+        setPriceMonth(response.data.pricePerMonth)
+        setCount(response.data.userCapacity)
+        setIsCustom(response.data.isCustom)
+        setSelectedModules(response.data.modules)
+
+      }).catch((err) => {
+        console.log("err ---", err);
+      });
+
+    }
+
+  }
 
   useEffect(() => {
-    async function fetchData() {
+    fetchData();
+  }, [setAllData]);
+
+  useEffect(() => {
+    async function allModule() {
       const response = await Axios({}, "modules", "GET");
       setModules(response.data);
-    }
-    try {
-      fetchData();
+    } try {
+      allModule();
     } catch (error) {
       console.log("err ---", error);
     }
@@ -72,41 +84,103 @@ const CreatePlan = (data) => {
     setSelectedModules(arr);
   };
 
-  function onSubmit() {
-    setLoader(true);
-    const dataVal = {
-      nameAr: nameAr,
-      nameEn: nameEn,
-      descriptionAr: disAr,
-      descriptionEn: disEn,
-      isCustom: true,
-      userCapacity: count,
-      pricePerMonth: priceMonth,
-      pricePerYear: priceYear,
-      modules: selectedModules,
-    };
+  function inCheick (name) {
+    console.log('name >>>>>>>>>', name)
+    setIsCustom(name);
+  }
 
-    if (data.location.data && data.location.data.name === "update") {
-      Axios(dataVal, "plans/" + data.location.data.id, "PUT")
-        .then((response) => {
-          data.history.push("/plans/plans");
-          setLoader(false);
-        })
-        .catch((err) => {
-          console.log("err ---", err);
-          setLoader(false);
-        });
-    } else {
-      Axios(dataVal, "plans", "POST")
-        .then((response) => {
-          data.history.push("/plans/plans");
-          setLoader(false);
-        })
-        .catch((err) => {
-          console.log("err ---", err);
-          setLoader(false);
-        });
+  function validate () {
+
+    let isError = false;
+    setToastMass('');
+
+    if (isCustom === "") {
+      isError = true;
+      setErrToasts(true);
+      setToastMass('choose creating');
+    } else if (nameAr === "") {
+      isError = true;
+      setErrToasts(true);
+      setToastMass('set nameAr');
+    } else if (nameEn === ""){
+      isError = true;
+      setErrToasts(true);
+      setToastMass('set nameEn');
+    } else if (disAr === ""){
+      isError = true;
+      setErrToasts(true);
+      setToastMass('set descriptionAr');
+    } else if (disEn === ""){
+      isError = true;
+      setErrToasts(true);
+      setToastMass('set descriptionEn');
+    } else if (priceYear === ""){
+      isError = true;
+      setErrToasts(true);
+      setToastMass('set priceYear');
+    } else if (priceMonth === ""){
+      isError = true;
+      setErrToasts(true);
+      setToastMass('set priceMonth');
+    } else if (count === ""){
+      isError = true;
+      setErrToasts(true);
+      setToastMass('set plan capacity');
+    } else if (selectedModules.length == 0){
+      isError = true;
+      setErrToasts(true);
+      setToastMass('choose modules');
     }
+
+    setTimeout(()=>{ setErrToasts(false) }, 2000)
+    return isError;
+
+  }
+
+  function onSubmit() {
+
+    const err = validate();
+
+    if (!err){
+
+      setLoader(true);
+
+      const dataVal = {
+        nameAr: nameAr,
+        nameEn: nameEn,
+        descriptionAr: disAr,
+        descriptionEn: disEn,
+        isCustom: isCustom,
+        userCapacity: count,
+        pricePerMonth: priceMonth,
+        pricePerYear: priceYear,
+        modules: selectedModules,
+      };
+
+      if (data.location.data && data.location.data.name === "update") {
+        Axios(dataVal, "plans/" + data.location.data.id, "PUT")
+            .then((response) => {
+              data.history.push("/plans/plans");
+              setLoader(false);
+            })
+            .catch((err) => {
+              console.log("err ---", err);
+              setLoader(false);
+            });
+      } else {
+        Axios(dataVal, "plans", "POST")
+            .then((response) => {
+              data.history.push("/plans/plans");
+              setLoader(false);
+            })
+            .catch((err) => {
+              console.log("err ---", err);
+              setLoader(false);
+            });
+      }
+
+    }
+
   }
 
   function loadBody() {
@@ -117,6 +191,14 @@ const CreatePlan = (data) => {
 
   return (
     <>
+      {
+        errToasts ?
+            <div className='toastFun'>
+              <h5 className='m-0'>{ toastMass }</h5>
+            </div>
+            :
+            null
+      }
       <CRow className="position-relative">
         {loadBody()}
         <CCol xs="12" md="12">
@@ -132,35 +214,29 @@ const CreatePlan = (data) => {
                 <CCol xs="12" md="12">
                   <div className="flex flexItemCenter mb-4">
                     <h6 className="m-0">Im Creating :</h6>
-                    <div className="pr-3 pl-3">
-                      <CFormGroup variant="custom-radio" inline>
-                        <CInputRadio
-                          custom
-                          id="inline-radio"
-                          name="inline-radios"
-                          value="option1"
-                        />
-                        <CLabel
-                          variant="custom-checkbox"
-                          htmlFor="inline-radio"
-                        >
-                          Public
-                        </CLabel>
-                      </CFormGroup>
-                      <CFormGroup variant="custom-radio" inline>
-                        <CInputRadio
-                          custom
-                          id="inline-radio1"
-                          name="inline-radios"
-                          value="option1"
-                        />
-                        <CLabel
-                          variant="custom-checkbox"
-                          htmlFor="inline-radio1"
-                        >
-                          Custom
-                        </CLabel>
-                      </CFormGroup>
+                    <div className="pr-3 pl-3 flex flexItemCenter">
+                      <div className='flex flexItemCenter mr-2 ml-2' onClick={() => inCheick('public')}>
+                        <span className='pointCircle flex flexItemCenter flexContentCenter'>
+                          {
+                            isCustom === 'public' ?
+                                <FaCircle/>
+                                :
+                                null
+                          }
+                        </span>
+                        <h6 className='m-0 mr-1 ml-1'>public</h6>
+                      </div>
+                      <div className='flex flexItemCenter mr-2 ml-2' onClick={() => inCheick('custom')}>
+                        <span className='pointCircle flex flexItemCenter flexContentCenter'>
+                          {
+                            isCustom === 'custom' ?
+                                <FaCircle/>
+                                :
+                                null
+                          }
+                        </span>
+                        <h6 className='m-0 mr-1 ml-1'>custom</h6>
+                      </div>
                     </div>
                   </div>
                 </CCol>

@@ -9,11 +9,6 @@ const DetailsOrganization = React.lazy(() => import('./views/organizations/Detai
 // Plans
 const Plans = React.lazy(() => import('./views/plans/Plans'));
 const CreatePlan = React.lazy(() => import('./views/plans/CreatePlan'));
-// Statistics
-const Statistics = React.lazy(() => import('./views/base/statistics/Statistics'));
-// Sections
-const HeaderSection = React.lazy(() => import('./views/base/sections/HeaderSection'));
-const BodySection = React.lazy(() => import('./views/base/sections/BodySection'));
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -25,12 +20,7 @@ const routes = [
   { path: '/organizations/detailsOrganization', name: 'DetailsOrganization', component: DetailsOrganization },
 
   { path: '/plans/plans', name: 'Plans', component: Plans },
-  { path: '/plans/createPlan', name: 'CreatePlan', component: CreatePlan },
-
-  { path: '/base/statistics', name: 'Statistics', component: Statistics },
-
-  { path: '/base/sections/headerSection', name: 'HeaderSection', component: HeaderSection },
-  { path: '/base/sections/bodySection', name: 'BodySection', component: BodySection },
+  { path: '/plans/createPlan', name: 'CreatePlan', component: CreatePlan }
 
 ];
 

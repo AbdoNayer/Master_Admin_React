@@ -20,14 +20,30 @@ import Axios from "../../actions/Index";
 import Loading from "../../containers/Loader";
 
 const CreateOrganization = (data) => {
-  const [allData, setAllData] = useState(null);
   const [errToasts, setErrToasts] = useState(false);
   const [toastMass, setToastMass] = useState('');
   const [loader, setLoader] = useState(false);
   const [images, setImages] = useState([]);
-  const [countries, setCountries] = useState([]);
-  const [cities, setCities] = useState([]);
-  // const [plans, setPackage] = useState([]);
+  const [countries, setCountries] = useState([
+    {
+      name  : 'egypt',
+      id    : 1
+    },
+    {
+      name  : 'saudi arabia',
+      id    : 2
+    },
+  ]);
+  const [cities, setCities] = useState([
+    {
+      name  : 'cairo',
+      id    : 3
+    },
+    {
+      name  : 'riyadh',
+      id    : 4
+    },
+  ]);
   const [plans, setPlans] = useState([]);
   const [planId, setPlanId] = useState(null);
   const [avatar, setAvatar] = useState("");
@@ -49,17 +65,42 @@ const CreateOrganization = (data) => {
   const maxNumber = 1;
 
   function fetchData() {
+
     if (data.location.data && data.location.data.name === "update") {
-      Axios(null, "organizations/" + data.location.data.id, "GET")
-        .then((response) => {
-          setAllData(response.data);
-          images.push(response.data.logo)
-          setAvatar(response.data.logo)
-        })
-        .catch((err) => {
+
+      Axios(null, "organizations/" + data.location.data.id, "GET").then((response) => {
+
+        images.push(response.data.logo)
+        setAvatar(response.data.logo)
+        setName(response.data.name)
+        setIndustry(response.data.industry)
+        setIdentifier(response.data.commercialIdentifier)
+        setPhone(response.data.phone)
+        setInfo(response.data.about)
+        setPlanId(response.data.planId)
+        setCityId(response.data.cityId)
+        setCountryId(response.data.countryId)
+        setDateStart(response.data.activeSubscription.startsAt)
+        setDateEnd(response.data.activeSubscription.endsAt)
+        setPayment(response.data.activeSubscription.paymentRef)
+        setLink(response.data.activeSubscription.link)
+        setSecretKey(response.data.activeSubscription.key)
+
+        // setIsClientOrganization(response.data.activeSubscription.paymentRef !== '' ? true : false)
+        // setIsStandardSetup(response.data.activeSubscription.link !== '' ? true : false)
+        //
+        // const sDate    = response.data.activeSubscription.startsAt.split('-')
+        // const eDate    = response.data.activeSubscription.endsAt.split('-')
+        //
+        // setDateStart(parseInt(sDate[0]) + "/" + parseInt(sDate[1]) + "/" + parseInt(sDate[2]))
+        // setDateEnd(parseInt(eDate[0]) + "/" + parseInt(eDate[1]) + "/" + parseInt(eDate[2]))
+
+        }).catch((err) => {
           console.log("err ---", err);
         });
+
     }
+
   }
   
   useEffect(() => {
@@ -67,16 +108,14 @@ const CreateOrganization = (data) => {
       console.log(isClientOrganization);
       const response = await Axios({}, `plans/?type=${isStandardSetup ? 'standard' : 'standalone'}`, "GET");
       setPlans(response.data);
-    }
-
-    try {
+    } try {
       fetchPlans();
     } catch (error) {
       console.log("err ---", error);
     }
     fetchData();
     setOldDate();
-  }, [setAllData]);
+  }, []);
 
   function setOldDate() {
     let dtToday = new Date();
@@ -168,15 +207,23 @@ const CreateOrganization = (data) => {
     } else if (dateStart === '') {
       isError = true;
       setErrToasts(true);
-      setToastMass('set dateStart');
+      setToastMass('set start at');
     } else if (dateEnd === '') {
       isError = true;
       setErrToasts(true);
-      setToastMass('set dateEnd');
-    } else if (payment === '') {
+      setToastMass('set ends At');
+    } else if ( isClientOrganization && payment === '') {
       isError = true;
       setErrToasts(true);
       setToastMass('set payment');
+    } else if (isStandardSetup && link === '') {
+      isError = true;
+      setErrToasts(true);
+      setToastMass('set installation link');
+    } else if (isStandardSetup && secretKey === '') {
+      isError = true;
+      setErrToasts(true);
+      setToastMass('set secret Key');
     }
 
     setTimeout(()=>{ setErrToasts(false) }, 2000)
@@ -313,7 +360,7 @@ const CreateOrganization = (data) => {
                           {images.map((image, index) => (
                             <div key={index} className="imageItem">
                               <img
-                                src={allData ? allData.logo : image["data_url"]}
+                                src={avatar ? avatar : image["data_url"]}
                                 alt=""
                                 className="w-100 h-100"
                               />
@@ -353,7 +400,7 @@ const CreateOrganization = (data) => {
                         className="mb-3"
                         type="text"
                         placeholder="name"
-                        value={allData ? allData.name : name}
+                        value={name}
                         onChange={(e) => setName(e.target.value)}
                       />
                     </CCol>
@@ -362,7 +409,7 @@ const CreateOrganization = (data) => {
                         className="mb-3"
                         type="text"
                         placeholder="industry"
-                        value={allData ? allData.industry : industry}
+                        value={industry}
                         onChange={(e) => setIndustry(e.target.value)}
                       />
                     </CCol>
@@ -371,7 +418,7 @@ const CreateOrganization = (data) => {
                         className="mb-3"
                         type="text"
                         placeholder="commercial identifier"
-                        value={allData ? allData.commercialIdentifier : identifier}
+                        value={identifier}
                         onChange={(e) => setIdentifier(e.target.value)}
                       />
                     </CCol>
@@ -380,7 +427,7 @@ const CreateOrganization = (data) => {
                         className="mb-3"
                         type="tel"
                         placeholder="phone number"
-                        value={allData ? allData.phone : phone}
+                        value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                       />
                     </CCol>
@@ -391,6 +438,7 @@ const CreateOrganization = (data) => {
                         name="country"
                         id="country"
                         onChange={changeCountry.bind(this)}
+                        value={countryId}
                       >
                         <option selected disabled>
                           select country
@@ -409,6 +457,7 @@ const CreateOrganization = (data) => {
                         name="city"
                         id="city"
                         onChange={changeCity.bind(this)}
+                        value={cityId}
                       >
                         <option selected disabled>
                           select city
@@ -424,7 +473,7 @@ const CreateOrganization = (data) => {
                       <CTextarea
                         className="mb-3"
                         rows="9"
-                        value={allData ? allData.about : info}
+                        value={info}
                         onChange={(e) => setInfo(e.target.value)}
                         placeholder="Other information about the organization"
                       />
@@ -474,7 +523,8 @@ const CreateOrganization = (data) => {
                               custom
                               id="inline-radio"
                               name="inline-radios"
-                              value="option1"
+                              value={planId}
+                              defaultChecked={planId}
                               onClick={() => chickPack(pack.id)}
                             />
                             <CLabel
@@ -499,7 +549,7 @@ const CreateOrganization = (data) => {
                   <CInput
                     type="date"
                     min={minDate}
-                    value={allData ? allData.activeSubscription.startsAt : dateStart}
+                    value={dateStart}
                     onChange={(e) => setDateStart(e.target.value)}
                   />
                 </CCol>
@@ -508,28 +558,28 @@ const CreateOrganization = (data) => {
                   <CInput
                     type="date"
                     min={minDate}
-                    value={allData ? allData.activeSubscription.endsAt : dateEnd}
+                    value={dateEnd}
                     onChange={(e) => setDateEnd(e.target.value)}
                   />
                 </CCol>
-                {isClientOrganization ? (
+                { isClientOrganization ? (
                   <CCol xs="12" md="4">
                     <CLabel htmlFor="date-input">Payment Reference</CLabel>
                     <CInput
                       type="text"
-                      value={allData ? allData.activeSubscription.paymentRef : payment}
+                      value={payment}
                       onChange={(e) => setPayment(e.target.value)}
                     />
                   </CCol>
                 ) : null}
               </CFormGroup>
-              {isStandardSetup ? (
+              { isStandardSetup ? (
                 <CFormGroup row>
                   <CCol xs="12" md="6">
                     <CLabel htmlFor="date-input">Installation link</CLabel>
                     <CInput
                       type="text"
-                      value={allData ? allData.activeSubscription.endsAt : link}
+                      value={link}
                       onChange={(e) => setLink(e.target.value)}
                     />
                   </CCol>
@@ -537,7 +587,7 @@ const CreateOrganization = (data) => {
                     <CLabel htmlFor="date-input">Secret Key</CLabel>
                     <CInput
                       type="text"
-                      value={allData ? allData.activeSubscription.endsAt : secretKey}
+                      value={secretKey}
                       onChange={(e) => setSecretKey(e.target.value)}
                     />
                   </CCol>

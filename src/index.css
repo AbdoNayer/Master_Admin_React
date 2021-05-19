@@ -214,6 +214,17 @@ svg{
     50% { opacity: 1; }
 }
 
+.pointCircle{
+    width: 20px;
+    height: 20px;
+    border: 1px solid #DDD;
+    border-radius: 50%;
+}
+
+.pointCircle svg{
+    top: 0;
+}
+
 /* Media Screen */
 
 @media screen and (max-width: 990px){
