@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="b68f11c6-bdd4-4c40-930a-3200b02bdfea" name="Sh3wZa" url="http://sds-sa.dev/">
+        <fileTransfer rootFolder="/public_html/Sh3wZa" host="sds-sa.dev" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

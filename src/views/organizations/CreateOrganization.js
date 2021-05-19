@@ -20,13 +20,32 @@ import Axios from "../../actions/Index";
 import Loading from "../../containers/Loader";
 
 const CreateOrganization = (data) => {
-  const [allData, setAllData] = useState(null);
+  const [errToasts, setErrToasts] = useState(false);
+  const [toastMass, setToastMass] = useState('');
   const [loader, setLoader] = useState(false);
   const [images, setImages] = useState([]);
-  const [countries, setCountries] = useState([]);
-  const [cities, setCities] = useState([]);
-  // const [plans, setPackage] = useState([]);
+  const [countries, setCountries] = useState([
+    {
+      name  : 'egypt',
+      id    : 1
+    },
+    {
+      name  : 'saudi arabia',
+      id    : 2
+    },
+  ]);
+  const [cities, setCities] = useState([
+    {
+      name  : 'cairo',
+      id    : 3
+    },
+    {
+      name  : 'riyadh',
+      id    : 4
+    },
+  ]);
   const [plans, setPlans] = useState([]);
+  const [planId, setPlanId] = useState(null);
   const [avatar, setAvatar] = useState("");
   const [name, setName] = useState("");
   const [industry, setIndustry] = useState("");
@@ -46,16 +65,42 @@ const CreateOrganization = (data) => {
   const maxNumber = 1;
 
   function fetchData() {
+
     if (data.location.data && data.location.data.name === "update") {
-      Axios(null, "organizations/" + data.location.data.id, "GET")
-        .then((response) => {
-          console.log("response details ------------", response);
-          setAllData(response.data.data);
-        })
-        .catch((err) => {
+
+      Axios(null, "organizations/" + data.location.data.id, "GET").then((response) => {
+
+        images.push(response.data.logo)
+        setAvatar(response.data.logo)
+        setName(response.data.name)
+        setIndustry(response.data.industry)
+        setIdentifier(response.data.commercialIdentifier)
+        setPhone(response.data.phone)
+        setInfo(response.data.about)
+        setPlanId(response.data.planId)
+        setCityId(response.data.cityId)
+        setCountryId(response.data.countryId)
+        setDateStart(response.data.activeSubscription.startsAt)
+        setDateEnd(response.data.activeSubscription.endsAt)
+        setPayment(response.data.activeSubscription.paymentRef)
+        setLink(response.data.activeSubscription.link)
+        setSecretKey(response.data.activeSubscription.key)
+
+        // setIsClientOrganization(response.data.activeSubscription.paymentRef !== '' ? true : false)
+        // setIsStandardSetup(response.data.activeSubscription.link !== '' ? true : false)
+        //
+        // const sDate    = response.data.activeSubscription.startsAt.split('-')
+        // const eDate    = response.data.activeSubscription.endsAt.split('-')
+        //
+        // setDateStart(parseInt(sDate[0]) + "/" + parseInt(sDate[1]) + "/" + parseInt(sDate[2]))
+        // setDateEnd(parseInt(eDate[0]) + "/" + parseInt(eDate[1]) + "/" + parseInt(eDate[2]))
+
+        }).catch((err) => {
           console.log("err ---", err);
         });
+
     }
+
   }
   
   useEffect(() => {
@@ -63,16 +108,14 @@ const CreateOrganization = (data) => {
       console.log(isClientOrganization);
       const response = await Axios({}, `plans/?type=${isStandardSetup ? 'standard' : 'standalone'}`, "GET");
       setPlans(response.data);
-    }
-
-    try {
+    } try {
       fetchPlans();
     } catch (error) {
       console.log("err ---", error);
     }
     fetchData();
     setOldDate();
-  }, [setAllData]);
+  }, []);
 
   function setOldDate() {
     let dtToday = new Date();
@@ -126,47 +169,118 @@ const CreateOrganization = (data) => {
     }
   }
 
-  function onSubmit() {
-    setLoader(true);
-    const dataVal = {
-      name: name,
-      logo: avatar,
-      organizationType: isClientOrganization ? 'client' : 'maintenance_company',
-      industry: industry,
-      countryId: countryId,
-      cityId: cityId,
-      commercialIdentifier: identifier,
-      about: info,
-      phone: phone,
-      apiLink: link,
-      apiSecret: secretKey,
-      planId: 44,
-      startsAt: dateStart,
-      endsAt: dateEnd,
-      paymentRef: payment,
-    };
+  function chickPack(id){setPlanId(id)}
 
-    if (data.location.data && data.location.data.name === "update") {
-      Axios(dataVal, "organizations/" + data.location.data.id, "PUT")
-        .then((response) => {
-          data.history.push("/organizations/organizations");
-          setLoader(false);
-        })
-        .catch((err) => {
-          console.log("err ---", err);
-          setLoader(false);
-        });
-    } else {
-      Axios(dataVal, "organizations", "POST")
-        .then((response) => {
-          data.history.push("/organizations/organizations");
-          setLoader(false);
-        })
-        .catch((err) => {
-          console.log("err ---", err);
-          setLoader(false);
-        });
+  function validate () {
+
+    let isError = false;
+    setToastMass('');
+
+    if (avatar === "") {
+      isError = true;
+      setErrToasts(true);
+      setToastMass('set logo');
+    }else if (name.length <= 0) {
+      isError = true;
+      setErrToasts(true);
+      setToastMass('set name');
+    } else if (industry.length <= 0) {
+      isError = true;
+      setErrToasts(true);
+      setToastMass('set industry');
+    } else if (identifier.length <= 0) {
+      isError = true;
+      setErrToasts(true);
+      setToastMass('set identifier');
+    } else if (phone.length <= 0) {
+      isError = true;
+      setErrToasts(true);
+      setToastMass('set phone');
+    } else if (info.length <= 0) {
+      isError = true;
+      setErrToasts(true);
+      setToastMass('set info');
+    } else if (planId == null) {
+      isError = true;
+      setErrToasts(true);
+      setToastMass('choose the plan');
+    } else if (dateStart === '') {
+      isError = true;
+      setErrToasts(true);
+      setToastMass('set start at');
+    } else if (dateEnd === '') {
+      isError = true;
+      setErrToasts(true);
+      setToastMass('set ends At');
+    } else if ( isClientOrganization && payment === '') {
+      isError = true;
+      setErrToasts(true);
+      setToastMass('set payment');
+    } else if (isStandardSetup && link === '') {
+      isError = true;
+      setErrToasts(true);
+      setToastMass('set installation link');
+    } else if (isStandardSetup && secretKey === '') {
+      isError = true;
+      setErrToasts(true);
+      setToastMass('set secret Key');
     }
+
+    setTimeout(()=>{ setErrToasts(false) }, 2000)
+    return isError;
+
+  }
+
+  function onSubmit() {
+
+    const err = validate();
+
+    if (!err){
+
+      setLoader(true);
+
+      const dataVal = {
+        name: name,
+        logo: avatar,
+        organizationType: isClientOrganization ? 'client' : 'maintenance_company',
+        industry: industry,
+        countryId: countryId,
+        cityId: cityId,
+        commercialIdentifier: identifier,
+        about: info,
+        phone: phone,
+        apiLink: link,
+        apiSecret: secretKey,
+        planId: planId,
+        startsAt: dateStart,
+        endsAt: dateEnd,
+        paymentRef: payment,
+      };
+
+      if (data.location.data && data.location.data.name === "update") {
+        Axios(dataVal, "organizations/" + data.location.data.id, "PUT")
+            .then((response) => {
+              data.history.push("/organizations/organizations");
+              setLoader(false);
+            })
+            .catch((err) => {
+              console.log("err ---", err);
+              setLoader(false);
+            });
+      } else {
+        Axios(dataVal, "organizations", "POST")
+            .then((response) => {
+              data.history.push("/organizations/organizations");
+              setLoader(false);
+            })
+            .catch((err) => {
+              console.log("err ---", err);
+              setLoader(false);
+            });
+      }
+
+    }
+
   }
 
   function loadBody() {
@@ -177,37 +291,40 @@ const CreateOrganization = (data) => {
 
   return (
     <>
+      {
+        errToasts ?
+            <div className='toastFun'>
+              <h5 className='m-0'>{ toastMass }</h5>
+            </div>
+            :
+            null
+      }
       <CRow className="position-relative">
         {loadBody()}
         <CCol xs="12" md="12">
           <CCard>
-            <CCardHeader className="mb-5 p-4 flex flexItemCenter flexSpace">
-              <h2>Create New Organization</h2>
-            </CCardHeader>
             <CCardBody>
-              <CFormGroup row>
-                <CCol xs="12" md="4">
-                  <h6>Im Creating :</h6>
-                  <div className="flex flexItemCenter">
-                    <CButton
+              <CCardHeader className="mb-5 pt-3 pb-4 pr-0 pl-0 flex flexItemCenter flexSpace">
+                <h6>Im Creating :</h6>
+                <div className="flex flexItemCenter">
+                  <CButton
                       className={
                         isClientOrganization ? "mr-2 ml-2 bg-info text-white" : "mr-2 ml-2"
                       }
                       onClick={() => toggleShow("on")}
-                    >
-                      Organization
-                    </CButton>
-                    <CButton
+                  >
+                    Organization
+                  </CButton>
+                  <CButton
                       className={
                         !isClientOrganization ? "mr-2 ml-2 bg-info text-white" : "mr-2 ml-2"
                       }
                       onClick={() => toggleShow("off")}
-                    >
-                      Maintainance Company
-                    </CButton>
-                  </div>
-                </CCol>
-              </CFormGroup>
+                  >
+                    Maintainance Company
+                  </CButton>
+                </div>
+              </CCardHeader>
               <CFormGroup row>
                 <CCol xs="12" md="4">
                   <div className="App">
@@ -240,10 +357,10 @@ const CreateOrganization = (data) => {
                             </span>
                           </button>
                           &nbsp;
-                          {imageList.map((image, index) => (
+                          {images.map((image, index) => (
                             <div key={index} className="imageItem">
                               <img
-                                src={image["data_url"]}
+                                src={avatar ? avatar : image["data_url"]}
                                 alt=""
                                 className="w-100 h-100"
                               />
@@ -321,6 +438,7 @@ const CreateOrganization = (data) => {
                         name="country"
                         id="country"
                         onChange={changeCountry.bind(this)}
+                        value={countryId}
                       >
                         <option selected disabled>
                           select country
@@ -339,6 +457,7 @@ const CreateOrganization = (data) => {
                         name="city"
                         id="city"
                         onChange={changeCity.bind(this)}
+                        value={cityId}
                       >
                         <option selected disabled>
                           select city
@@ -362,7 +481,7 @@ const CreateOrganization = (data) => {
                   </CFormGroup>
                 </CCol>
               </CFormGroup>
-              <CCardHeader className="mb-5 p-4 flex flexItemCenter flexSpace">
+              <CCardHeader className="mb-5 pt-3 pb-4 pr-0 pl-0 flex flexItemCenter flexSpace">
                 <h6>Installation Type :</h6>
                 <div className="flex flexItemCenter">
                   <CButton
@@ -404,7 +523,9 @@ const CreateOrganization = (data) => {
                               custom
                               id="inline-radio"
                               name="inline-radios"
-                              value="option1"
+                              value={planId}
+                              defaultChecked={planId}
+                              onClick={() => chickPack(pack.id)}
                             />
                             <CLabel
                               variant="custom-checkbox"
@@ -441,7 +562,7 @@ const CreateOrganization = (data) => {
                     onChange={(e) => setDateEnd(e.target.value)}
                   />
                 </CCol>
-                {isClientOrganization ? (
+                { isClientOrganization ? (
                   <CCol xs="12" md="4">
                     <CLabel htmlFor="date-input">Payment Reference</CLabel>
                     <CInput
@@ -452,7 +573,7 @@ const CreateOrganization = (data) => {
                   </CCol>
                 ) : null}
               </CFormGroup>
-              {isStandardSetup ? (
+              { isStandardSetup ? (
                 <CFormGroup row>
                   <CCol xs="12" md="6">
                     <CLabel htmlFor="date-input">Installation link</CLabel>
