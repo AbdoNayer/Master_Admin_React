@@ -21,27 +21,27 @@ import Loading from "../../containers/Loader";
 
 const CreateOrganization = (data) => {
   const [errToasts, setErrToasts] = useState(false);
-  const [toastMass, setToastMass] = useState('');
+  const [toastMass, setToastMass] = useState("");
   const [loader, setLoader] = useState(false);
   const [images, setImages] = useState([]);
   const [countries, setCountries] = useState([
     {
-      name  : 'egypt',
-      id    : 1
+      name: "egypt",
+      id: 1,
     },
     {
-      name  : 'saudi arabia',
-      id    : 2
+      name: "saudi arabia",
+      id: 2,
     },
   ]);
   const [cities, setCities] = useState([
     {
-      name  : 'cairo',
-      id    : 3
+      name: "cairo",
+      id: 3,
     },
     {
-      name  : 'riyadh',
-      id    : 4
+      name: "riyadh",
+      id: 4,
     },
   ]);
   const [plans, setPlans] = useState([]);
@@ -57,58 +57,59 @@ const CreateOrganization = (data) => {
   const [dateStart, setDateStart] = useState("");
   const [dateEnd, setDateEnd] = useState("");
   const [payment, setPayment] = useState("");
-  const [link, setLink] = useState("");
-  const [secretKey, setSecretKey] = useState("");
+  const [link, setLink] = useState(undefined);
+  const [secretKey, setSecretKey] = useState(undefined);
   const [minDate, setMinDate] = useState("");
   const [isClientOrganization, setIsClientOrganization] = useState(true);
   const [isStandardSetup, setIsStandardSetup] = useState(false);
   const maxNumber = 1;
 
   function fetchData() {
-
     if (data.location.data && data.location.data.name === "update") {
+      Axios(null, "organizations/" + data.location.data.id, "GET")
+        .then((response) => {
+          images.push(response.data.logo);
+          setAvatar(response.data.logo);
+          setName(response.data.name);
+          setIndustry(response.data.industry);
+          setIdentifier(response.data.commercialIdentifier);
+          setPhone(response.data.phone);
+          setInfo(response.data.about);
+          setPlanId(response.data.planId);
+          setCityId(response.data.cityId);
+          setCountryId(response.data.countryId);
+          setDateStart(response.data.activeSubscription.startsAt);
+          setDateEnd(response.data.activeSubscription.endsAt);
+          setPayment(response.data.activeSubscription.paymentRef);
+          setLink(response.data.activeSubscription.link);
+          setSecretKey(response.data.activeSubscription.key);
 
-      Axios(null, "organizations/" + data.location.data.id, "GET").then((response) => {
-
-        images.push(response.data.logo)
-        setAvatar(response.data.logo)
-        setName(response.data.name)
-        setIndustry(response.data.industry)
-        setIdentifier(response.data.commercialIdentifier)
-        setPhone(response.data.phone)
-        setInfo(response.data.about)
-        setPlanId(response.data.planId)
-        setCityId(response.data.cityId)
-        setCountryId(response.data.countryId)
-        setDateStart(response.data.activeSubscription.startsAt)
-        setDateEnd(response.data.activeSubscription.endsAt)
-        setPayment(response.data.activeSubscription.paymentRef)
-        setLink(response.data.activeSubscription.link)
-        setSecretKey(response.data.activeSubscription.key)
-
-        // setIsClientOrganization(response.data.activeSubscription.paymentRef !== '' ? true : false)
-        // setIsStandardSetup(response.data.activeSubscription.link !== '' ? true : false)
-        //
-        // const sDate    = response.data.activeSubscription.startsAt.split('-')
-        // const eDate    = response.data.activeSubscription.endsAt.split('-')
-        //
-        // setDateStart(parseInt(sDate[0]) + "/" + parseInt(sDate[1]) + "/" + parseInt(sDate[2]))
-        // setDateEnd(parseInt(eDate[0]) + "/" + parseInt(eDate[1]) + "/" + parseInt(eDate[2]))
-
-        }).catch((err) => {
+          // setIsClientOrganization(response.data.activeSubscription.paymentRef !== '' ? true : false)
+          // setIsStandardSetup(response.data.activeSubscription.link !== '' ? true : false)
+          //
+          // const sDate    = response.data.activeSubscription.startsAt.split('-')
+          // const eDate    = response.data.activeSubscription.endsAt.split('-')
+          //
+          // setDateStart(parseInt(sDate[0]) + "/" + parseInt(sDate[1]) + "/" + parseInt(sDate[2]))
+          // setDateEnd(parseInt(eDate[0]) + "/" + parseInt(eDate[1]) + "/" + parseInt(eDate[2]))
+        })
+        .catch((err) => {
           console.log("err ---", err);
         });
-
     }
-
   }
-  
+
   useEffect(() => {
     async function fetchPlans() {
       console.log(isClientOrganization);
-      const response = await Axios({}, `plans/?type=${isStandardSetup ? 'standard' : 'standalone'}`, "GET");
+      const response = await Axios(
+        {},
+        `plans/?type=${isStandardSetup ? "standard" : "standalone"}`,
+        "GET"
+      );
       setPlans(response.data);
-    } try {
+    }
+    try {
       fetchPlans();
     } catch (error) {
       console.log("err ---", error);
@@ -169,80 +170,82 @@ const CreateOrganization = (data) => {
     }
   }
 
-  function chickPack(id){setPlanId(id)}
+  function chickPack(id) {
+    setPlanId(id);
+  }
 
-  function validate () {
-
+  function validate() {
     let isError = false;
-    setToastMass('');
+    setToastMass("");
 
     if (avatar === "") {
       isError = true;
       setErrToasts(true);
-      setToastMass('set logo');
-    }else if (name.length <= 0) {
+      setToastMass("set logo");
+    } else if (name.length <= 0) {
       isError = true;
       setErrToasts(true);
-      setToastMass('set name');
+      setToastMass("set name");
     } else if (industry.length <= 0) {
       isError = true;
       setErrToasts(true);
-      setToastMass('set industry');
+      setToastMass("set industry");
     } else if (identifier.length <= 0) {
       isError = true;
       setErrToasts(true);
-      setToastMass('set identifier');
+      setToastMass("set identifier");
     } else if (phone.length <= 0) {
       isError = true;
       setErrToasts(true);
-      setToastMass('set phone');
+      setToastMass("set phone");
     } else if (info.length <= 0) {
       isError = true;
       setErrToasts(true);
-      setToastMass('set info');
+      setToastMass("set info");
     } else if (planId == null) {
       isError = true;
       setErrToasts(true);
-      setToastMass('choose the plan');
-    } else if (dateStart === '') {
+      setToastMass("choose the plan");
+    } else if (dateStart === "") {
       isError = true;
       setErrToasts(true);
-      setToastMass('set start at');
-    } else if (dateEnd === '') {
+      setToastMass("set start at");
+    } else if (dateEnd === "") {
       isError = true;
       setErrToasts(true);
-      setToastMass('set ends At');
-    } else if ( isClientOrganization && payment === '') {
+      setToastMass("set ends At");
+    } else if (isClientOrganization && payment === "") {
       isError = true;
       setErrToasts(true);
-      setToastMass('set payment');
-    } else if (isStandardSetup && link === '') {
+      setToastMass("set payment");
+    } else if (isStandardSetup && link === "") {
       isError = true;
       setErrToasts(true);
-      setToastMass('set installation link');
-    } else if (isStandardSetup && secretKey === '') {
+      setToastMass("set installation link");
+    } else if (isStandardSetup && secretKey === "") {
       isError = true;
       setErrToasts(true);
-      setToastMass('set secret Key');
+      setToastMass("set secret Key");
     }
 
-    setTimeout(()=>{ setErrToasts(false) }, 2000)
+    setTimeout(() => {
+      setErrToasts(false);
+    }, 2000);
     return isError;
-
   }
 
   function onSubmit() {
-
     const err = validate();
 
-    if (!err){
-
+    if (!err) {
       setLoader(true);
 
       const dataVal = {
         name: name,
         logo: avatar,
-        organizationType: isClientOrganization ? 'client' : 'maintenance_company',
+        organizationType: isClientOrganization
+          ? "client"
+          : "maintenance_company",
         industry: industry,
         countryId: countryId,
         cityId: cityId,
@@ -259,28 +262,26 @@ const CreateOrganization = (data) => {
 
       if (data.location.data && data.location.data.name === "update") {
         Axios(dataVal, "organizations/" + data.location.data.id, "PUT")
-            .then((response) => {
-              data.history.push("/organizations/organizations");
-              setLoader(false);
-            })
-            .catch((err) => {
-              console.log("err ---", err);
-              setLoader(false);
-            });
+          .then((response) => {
+            data.history.push("/organizations/organizations");
+            setLoader(false);
+          })
+          .catch((err) => {
+            console.log("err ---", err);
+            setLoader(false);
+          });
       } else {
         Axios(dataVal, "organizations", "POST")
-            .then((response) => {
-              data.history.push("/organizations/organizations");
-              setLoader(false);
-            })
-            .catch((err) => {
-              console.log("err ---", err);
-              setLoader(false);
-            });
+          .then((response) => {
+            data.history.push("/organizations/organizations");
+            setLoader(false);
+          })
+          .catch((err) => {
+            console.log("err ---", err);
+            setLoader(false);
+          });
       }
-
     }
-
   }
 
   function loadBody() {
@@ -291,14 +292,11 @@ const CreateOrganization = (data) => {
 
   return (
     <>
-      {
-        errToasts ?
-            <div className='toastFun'>
-              <h5 className='m-0'>{ toastMass }</h5>
-            </div>
-            :
-            null
-      }
+      {errToasts ? (
+        <div className="toastFun">
+          <h5 className="m-0">{toastMass}</h5>
+        </div>
+      ) : null}
       <CRow className="position-relative">
         {loadBody()}
         <CCol xs="12" md="12">
@@ -308,18 +306,22 @@ const CreateOrganization = (data) => {
                 <h6>Im Creating :</h6>
                 <div className="flex flexItemCenter">
                   <CButton
-                      className={
-                        isClientOrganization ? "mr-2 ml-2 bg-info text-white" : "mr-2 ml-2"
-                      }
-                      onClick={() => toggleShow("on")}
+                    className={
+                      isClientOrganization
+                        ? "mr-2 ml-2 bg-info text-white"
+                        : "mr-2 ml-2"
+                    }
+                    onClick={() => toggleShow("on")}
                   >
                     Organization
                   </CButton>
                   <CButton
-                      className={
-                        !isClientOrganization ? "mr-2 ml-2 bg-info text-white" : "mr-2 ml-2"
-                      }
-                      onClick={() => toggleShow("off")}
+                    className={
+                      !isClientOrganization
+                        ? "mr-2 ml-2 bg-info text-white"
+                        : "mr-2 ml-2"
+                    }
+                    onClick={() => toggleShow("off")}
                   >
                     Maintainance Company
                   </CButton>
@@ -486,7 +488,9 @@ const CreateOrganization = (data) => {
                 <div className="flex flexItemCenter">
                   <CButton
                     className={
-                      !isStandardSetup ? "mr-2 ml-2 bg-info text-white" : "mr-2 ml-2"
+                      !isStandardSetup
+                        ? "mr-2 ml-2 bg-info text-white"
+                        : "mr-2 ml-2"
                     }
                     onClick={() => toggleShow2("off")}
                   >
@@ -495,7 +499,9 @@ const CreateOrganization = (data) => {
                   {isClientOrganization ? (
                     <CButton
                       className={
-                        isStandardSetup ? "mr-2 ml-2 bg-info text-white" : "mr-2 ml-2"
+                        isStandardSetup
+                          ? "mr-2 ml-2 bg-info text-white"
+                          : "mr-2 ml-2"
                       }
                       onClick={() => toggleShow2("on")}
                     >
@@ -562,7 +568,7 @@ const CreateOrganization = (data) => {
                     onChange={(e) => setDateEnd(e.target.value)}
                   />
                 </CCol>
-                { isClientOrganization ? (
+                {isClientOrganization ? (
                   <CCol xs="12" md="4">
                     <CLabel htmlFor="date-input">Payment Reference</CLabel>
                     <CInput
@@ -573,7 +579,7 @@ const CreateOrganization = (data) => {
                   </CCol>
                 ) : null}
               </CFormGroup>
-              { isStandardSetup ? (
+              {isStandardSetup ? (
                 <CFormGroup row>
                   <CCol xs="12" md="6">
                     <CLabel htmlFor="date-input">Installation link</CLabel>
