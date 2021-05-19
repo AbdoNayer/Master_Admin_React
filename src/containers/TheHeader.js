@@ -1,5 +1,5 @@
-import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   CHeader,
   CToggler,
@@ -7,25 +7,39 @@ import {
   CHeaderNav,
   CSubheader,
   CBreadcrumbRouter,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+  CButton,
+  CHeaderNavItem,
+  CHeaderNavLink,
+} from "@coreui/react";
+import CIcon from "@coreui/icons-react";
 
+import {
+  TheHeaderDropdown,
+  TheHeaderDropdownMssg,
+  TheHeaderDropdownNotif,
+  TheHeaderDropdownTasks,
+} from "./index";
 // routes config
-import routes from '../routes'
+import routes from "../routes";
 
 const TheHeader = () => {
-  const dispatch = useDispatch()
-  const sidebarShow = useSelector(state => state.sidebarShow)
+  const dispatch = useDispatch();
+  const sidebarShow = useSelector((state) => state.sidebarShow);
 
   const toggleSidebar = () => {
-    const val = [true, 'responsive'].includes(sidebarShow) ? false : 'responsive'
-    dispatch({type: 'set', sidebarShow: val})
-  }
+    const val = [true, "responsive"].includes(sidebarShow)
+      ? false
+      : "responsive";
+    dispatch({ type: "set", sidebarShow: val });
+  };
 
   const toggleSidebarMobile = () => {
-    const val = [false, 'responsive'].includes(sidebarShow) ? true : 'responsive'
-    dispatch({type: 'set', sidebarShow: val})
-  }
+    const val = [false, "responsive"].includes(sidebarShow)
+      ? true
+      : "responsive";
+    dispatch({ type: "set", sidebarShow: val });
+  };
+  const user = JSON.parse(localStorage.getItem('tosafeAdmin'));
 
   return (
     <CHeader withSubheader>
@@ -40,11 +54,33 @@ const TheHeader = () => {
         onClick={toggleSidebar}
       />
       <CHeaderBrand className="mx-auto d-lg-none" to="/">
-        <CIcon name="logo" height="48" alt="Logo"/>
+        <CIcon name="logo" height="48" alt="Logo" />
       </CHeaderBrand>
-
+      <CHeaderNav className="d-md-down-none mr-auto">
+        <CHeaderNavItem className="px-3">
+          <CHeaderNavLink to="/dashboard">Dashboard</CHeaderNavLink>
+        </CHeaderNavItem>
+        <CHeaderNavItem className="px-3">
+          <CHeaderNavLink to="/users">Users</CHeaderNavLink>
+        </CHeaderNavItem>
+        <CHeaderNavItem className="px-3">
+          <CHeaderNavLink>Settings</CHeaderNavLink>
+        </CHeaderNavItem>
+      </CHeaderNav>
       <CHeaderNav className="px-3">
-
+        {/* <CButton
+          size="sm"
+          className="btn-dribbble btn-brand mr-1 mb-1"
+          onClick={() => localStorage.setItem("tosafeAdmin", undefined)}
+        >
+          <CIcon size="sm" name="cib-dribbble" />
+          <span className="mfs-2">Logout</span>
+        </CButton> */}
+        <b>{user.displayName}</b>
+        {/* <TheHeaderDropdownNotif />
+        <TheHeaderDropdownTasks />
+        <TheHeaderDropdownMssg /> */}
+        <TheHeaderDropdown />
       </CHeaderNav>
 
       <CSubheader className="px-3 justify-content-between">
@@ -52,10 +88,9 @@ const TheHeader = () => {
           className="border-0 c-subheader-nav m-0 px-0 px-md-3"
           routes={routes}
         />
-
       </CSubheader>
     </CHeader>
-  )
-}
+  );
+};
 
-export default TheHeader
+export default TheHeader;
