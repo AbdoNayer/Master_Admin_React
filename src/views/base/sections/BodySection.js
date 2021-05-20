@@ -106,7 +106,7 @@ function BodySection (data) {
                                                         <FiEye/>
                                                     </CButton>
                                                     <CButton
-                                                        to={{pathname : '/organizations/createOrganization', data : { id: infoUser.id, name : 'update' }}}
+                                                        to={{pathname : '/organizations/updateInfoOrganization', data : { id: infoUser.id }}}
                                                         className='mr-1 ml-1'
                                                         variant="outline"
                                                         active

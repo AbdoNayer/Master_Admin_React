@@ -43,7 +43,7 @@ const Login = () => {
       const resp = await response.json();
       const str = JSON.stringify(resp);
       console.log(str);
-      localStorage.setItem("tosafeAdmin", str); // parses JSON response into native JavaScript objects
+      localStorage.setItem("tosafeAdmin", str);
       window.location.reload();
     }
 
