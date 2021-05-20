@@ -68,18 +68,7 @@ const TheHeader = () => {
         </CHeaderNavItem>
       </CHeaderNav>
       <CHeaderNav className="px-3">
-        {/* <CButton
-          size="sm"
-          className="btn-dribbble btn-brand mr-1 mb-1"
-          onClick={() => localStorage.setItem("tosafeAdmin", undefined)}
-        >
-          <CIcon size="sm" name="cib-dribbble" />
-          <span className="mfs-2">Logout</span>
-        </CButton> */}
-        <b>{user.displayName}</b>
-        {/* <TheHeaderDropdownNotif />
-        <TheHeaderDropdownTasks />
-        <TheHeaderDropdownMssg /> */}
+        <b>{user.displayName}</b> 
         <TheHeaderDropdown />
       </CHeaderNav>
 
