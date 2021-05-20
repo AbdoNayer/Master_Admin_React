@@ -18,6 +18,7 @@ import Axios from "../../actions/Index";
 import Loading from "../../containers/Loader";
 
 const UpdateInfoOrganization = (data) => {
+    const [avatar, setAvatar] = useState("");
     const [errToasts, setErrToasts] = useState(false);
     const [toastMass, setToastMass] = useState("");
     const [loader, setLoader] = useState(true);
@@ -42,7 +43,6 @@ const UpdateInfoOrganization = (data) => {
             id: 4,
         },
     ]);
-    const [avatar, setAvatar] = useState("");
     const [organizationType, setOrganizationType] = useState("");
     const [name, setName] = useState("");
     const [industry, setIndustry] = useState("");
@@ -101,23 +101,23 @@ const UpdateInfoOrganization = (data) => {
             isError = true;
             setErrToasts(true);
             setToastMass("set logo");
-        } else if (name.length <= 0) {
+        } else if (name === "") {
             isError = true;
             setErrToasts(true);
             setToastMass("set name");
-        } else if (industry.length <= 0) {
+        } else if (industry === "") {
             isError = true;
             setErrToasts(true);
             setToastMass("set industry");
-        } else if (identifier.length <= 0) {
+        } else if (identifier === "") {
             isError = true;
             setErrToasts(true);
             setToastMass("set identifier");
-        } else if (phone.length <= 0) {
+        } else if (phone === "") {
             isError = true;
             setErrToasts(true);
             setToastMass("set phone");
-        } else if (info.length <= 0) {
+        } else if (info === "") {
             isError = true;
             setErrToasts(true);
             setToastMass("set info");
@@ -140,8 +140,9 @@ const UpdateInfoOrganization = (data) => {
                 name: name,
                 logo: avatar,
                 industry: industry,
-                countryId: countryId,
-                cityId: cityId,
+                // countryId: countryId,
+                // cityId: cityId,
+                cityId: 0,
                 commercialIdentifier: identifier,
                 about: info,
                 phone: phone,
@@ -289,44 +290,44 @@ const UpdateInfoOrganization = (data) => {
                                                 onChange={(e) => setPhone(e.target.value)}
                                             />
                                         </CCol>
-                                        <CCol xs="12" md="6">
-                                            <CSelect
-                                                custom
-                                                className="mb-3"
-                                                name="country"
-                                                id="country"
-                                                onChange={changeCountry.bind(this)}
-                                                value={countryId}
-                                            >
-                                                <option selected disabled>
-                                                    select country
-                                                </option>
-                                                {countries.map((item) => (
-                                                    <option key={item.value} value={item.id}>
-                                                        {item.name}
-                                                    </option>
-                                                ))}
-                                            </CSelect>
-                                        </CCol>
-                                        <CCol xs="12" md="6">
-                                            <CSelect
-                                                custom
-                                                className="mb-3"
-                                                name="city"
-                                                id="city"
-                                                onChange={changeCity.bind(this)}
-                                                value={cityId}
-                                            >
-                                                <option selected disabled>
-                                                    select city
-                                                </option>
-                                                {cities.map((item) => (
-                                                    <option key={item.value} value={item.id}>
-                                                        {item.name}
-                                                    </option>
-                                                ))}
-                                            </CSelect>
-                                        </CCol>
+                                        {/*<CCol xs="12" md="6">*/}
+                                        {/*    <CSelect*/}
+                                        {/*        custom*/}
+                                        {/*        className="mb-3"*/}
+                                        {/*        name="country"*/}
+                                        {/*        id="country"*/}
+                                        {/*        onChange={changeCountry.bind(this)}*/}
+                                        {/*        value={countryId}*/}
+                                        {/*    >*/}
+                                        {/*        <option selected disabled>*/}
+                                        {/*            select country*/}
+                                        {/*        </option>*/}
+                                        {/*        {countries.map((item) => (*/}
+                                        {/*            <option key={item.value} value={item.id}>*/}
+                                        {/*                {item.name}*/}
+                                        {/*            </option>*/}
+                                        {/*        ))}*/}
+                                        {/*    </CSelect>*/}
+                                        {/*</CCol>*/}
+                                        {/*<CCol xs="12" md="6">*/}
+                                        {/*    <CSelect*/}
+                                        {/*        custom*/}
+                                        {/*        className="mb-3"*/}
+                                        {/*        name="city"*/}
+                                        {/*        id="city"*/}
+                                        {/*        onChange={changeCity.bind(this)}*/}
+                                        {/*        value={cityId}*/}
+                                        {/*    >*/}
+                                        {/*        <option selected disabled>*/}
+                                        {/*            select city*/}
+                                        {/*        </option>*/}
+                                        {/*        {cities.map((item) => (*/}
+                                        {/*            <option key={item.value} value={item.id}>*/}
+                                        {/*                {item.name}*/}
+                                        {/*            </option>*/}
+                                        {/*        ))}*/}
+                                        {/*    </CSelect>*/}
+                                        {/*</CCol>*/}
                                         <CCol xs="12" md="12">
                                             <CTextarea
                                                 className="mb-3"

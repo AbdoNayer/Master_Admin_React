@@ -49,20 +49,6 @@ function InfoOrganization (data) {
                                             disabled
                                         />
                                     </CCol>
-                                    <CCol xs='12' md='6'>
-                                        <CInput
-                                            className       = 'mb-3'
-                                            value           = {data ? data.data.countryName : 'no country'}
-                                            disabled
-                                        />
-                                    </CCol>
-                                    <CCol xs='12' md='6'>
-                                        <CInput
-                                            className       = 'mb-3'
-                                            value           = {data ? data.data.cityName : 'no city'}
-                                            disabled
-                                        />
-                                    </CCol>
                                     <CCol xs='12' md='12'>
                                         <CTextarea
                                             className       = 'mb-3'

@@ -13,6 +13,12 @@ import NoData from '../../containers/NoData'
 
 function BodySection (data) {
 
+    // const sDate    = response.data.activeSubscription.startsAt.split('-')
+    // const eDate    = response.data.activeSubscription.endsAt.split('-')
+    //
+    // setDateStart(parseInt(sDate[0]) + "/" + parseInt(sDate[1]) + "/" + parseInt(sDate[2]))
+    // setDateEnd(parseInt(eDate[0]) + "/" + parseInt(eDate[1]) + "/" + parseInt(eDate[2]))
+
     const [fields, setFields]                     = useState([
         'plan',
         'installation type',

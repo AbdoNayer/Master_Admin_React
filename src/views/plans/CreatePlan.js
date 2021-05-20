@@ -8,7 +8,7 @@ import {
   CFormGroup,
   CInput,
   CTextarea,
-  CRow,
+  CRow, CSelect
 } from "@coreui/react";
 import Axios from "../../actions/Index";
 import CIcon from "@coreui/icons-react";
@@ -22,6 +22,17 @@ const CreatePlan = (data) => {
   const [allData, setAllData] = useState(null);
   const [loader, setLoader] = useState(false);
   const [modules, setModules] = useState([]);
+  const [allPlanType, setallPlanType] = useState([
+    {
+      name: "standard",
+      id: 1,
+    },
+    {
+      name: "standalone",
+      id: 2,
+    },
+  ]);
+  const [planType, setPlanType] = useState('');
   const [selectedModules, setSelectedModules] = useState([]);
   const [count, setCount] = useState('');
   const [isCustom, setIsCustom] = useState('');
@@ -85,9 +96,12 @@ const CreatePlan = (data) => {
   };
 
   function inCheick (name) {
-    console.log('name >>>>>>>>>', name)
     setIsCustom(name);
   }
+
+  const changeCountry = (event) => {
+    setPlanType(event.target.value);
+  };
 
   function validate () {
 
@@ -126,6 +140,10 @@ const CreatePlan = (data) => {
       isError = true;
       setErrToasts(true);
       setToastMass('set plan capacity');
+    } else if (planType === ""){
+      isError = true;
+      setErrToasts(true);
+      setToastMass('choose plan type');
     } else if (selectedModules.length == 0){
       isError = true;
       setErrToasts(true);
@@ -153,6 +171,7 @@ const CreatePlan = (data) => {
         isCustom: isCustom,
         userCapacity: count,
         pricePerMonth: priceMonth,
+        planType: planType,
         pricePerYear: priceYear,
         modules: selectedModules,
       };
@@ -215,10 +234,10 @@ const CreatePlan = (data) => {
                   <div className="flex flexItemCenter mb-4">
                     <h6 className="m-0">Im Creating :</h6>
                     <div className="pr-3 pl-3 flex flexItemCenter">
-                      <div className='flex flexItemCenter mr-2 ml-2' onClick={() => inCheick('public')}>
+                      <div className='flex flexItemCenter mr-2 ml-2' onClick={() => inCheick(false)}>
                         <span className='pointCircle flex flexItemCenter flexContentCenter'>
                           {
-                            isCustom === 'public' ?
+                            isCustom === false ?
                                 <FaCircle/>
                                 :
                                 null
@@ -226,10 +245,10 @@ const CreatePlan = (data) => {
                         </span>
                         <h6 className='m-0 mr-1 ml-1'>public</h6>
                       </div>
-                      <div className='flex flexItemCenter mr-2 ml-2' onClick={() => inCheick('custom')}>
+                      <div className='flex flexItemCenter mr-2 ml-2' onClick={() => inCheick(true)}>
                         <span className='pointCircle flex flexItemCenter flexContentCenter'>
                           {
-                            isCustom === 'custom' ?
+                            isCustom === true ?
                                 <FaCircle/>
                                 :
                                 null
@@ -276,7 +295,7 @@ const CreatePlan = (data) => {
                     placeholder="description english"
                   />
                 </CCol>
-                <CCol xs="12" md="4">
+                <CCol xs="12" md="3">
                   <CInput
                     className="mb-3"
                     type="text"
@@ -285,7 +304,7 @@ const CreatePlan = (data) => {
                     onChange={(e) => setPriceYear(e.target.value)}
                   />
                 </CCol>
-                <CCol xs="12" md="4">
+                <CCol xs="12" md="3">
                   <CInput
                     className="mb-3"
                     type="text"
@@ -294,7 +313,7 @@ const CreatePlan = (data) => {
                     onChange={(e) => setPriceMonth(e.target.value)}
                   />
                 </CCol>
-                <CCol xs="12" md="4">
+                <CCol xs="12" md="3">
                   <CInput
                     className="mb-3"
                     type="tel"
@@ -302,6 +321,25 @@ const CreatePlan = (data) => {
                     value={count}
                     onChange={(e) => setCount(e.target.value)}
                   />
+                </CCol>
+                <CCol xs="12" md="3">
+                  <CSelect
+                    custom
+                    className="mb-3"
+                    name="country"
+                    id="country"
+                    onChange={changeCountry.bind(this)}
+                    value={planType}
+                  >
+                    <option selected disabled>
+                      plan type
+                    </option>
+                    {allPlanType.map((item) => (
+                      <option key={item.name} value={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </CSelect>
                 </CCol>
               </CFormGroup>
 

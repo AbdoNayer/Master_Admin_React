@@ -47,7 +47,7 @@ function DetailsOrganizations (data) {
                 allData ?
                     <>
                         <InfoOrganization data={allData} />
-                        <SubscriptionsPlan data={allData.activeSubscription} />
+                        <SubscriptionsPlan data={allData.activeSubscription} value={allData.id} />
                         <SubscriptionsHistory data={allData.subscriptionHistory} />
                     </>
                     :
