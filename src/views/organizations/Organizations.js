@@ -16,6 +16,7 @@ const Organizations = () => {
   const [statistics, setStatistics] = useState({});
 
   useEffect(() => {
+
     async function fetchData() {
       const response = await Axios({}, "organizations/statistics", "POST");
       setStatistics(response.data);

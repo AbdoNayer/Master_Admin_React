@@ -153,6 +153,7 @@
     flex-direction: column;
     background-color: #FFF;
     z-index: 9999;
+    min-height: 500px;
 }
 
 .noData{
@@ -223,6 +224,35 @@ svg{
 
 .pointCircle svg{
     top: 0;
+}
+
+.sectionLogin{
+    background-image: url("https://png.pngtree.com/thumb_back/fw800/background/20190830/pngtree-beautiful-purple-smoke-effect-background-image_308543.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    background-color: rgba(0,0,0,0.6);
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.overLay{
+    background-color: rgba(0,0,0,0.5);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    right: 0;
+    top: 0
+}
+
+.blockInfoUser{
+    display: flex;
+    flex-direction: column;
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
 }
 
 /* Media Screen */

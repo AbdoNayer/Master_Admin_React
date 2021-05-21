@@ -1,10 +1,11 @@
 import React  from 'react'
 import { CCard, CCardBody, CCardHeader, CCol, CFormGroup, CInput, CRow, CButton, CLabel } from "@coreui/react";
-import { FiPlus } from "react-icons/fi";
+import { FiPlus, FiRefreshCw } from "react-icons/fi";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 function SubscriptionsPlan (data) {
+
 
     return (
         <CRow>
@@ -13,7 +14,7 @@ function SubscriptionsPlan (data) {
                     <CCardHeader className='mb-5 p-4 flex flexItemCenter flexSpace'>
                         <h6>subscriptions and plans :</h6>
                         <div className='flex flexItemCenter'>
-                            <CButton to='/' color='success' className='mr-2 ml-2'>
+                            <CButton to={{pathname : '/organizations/createSubscriptionOrganization/'+ data.value, id : { id: data.value }}} color='success' className='mr-2 ml-2'>
                                 <FiPlus className='text-white'/>
                                 <span className='mr-1 ml-1'>subscribe to other Plan</span>
                             </CButton>

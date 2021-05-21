@@ -6,12 +6,12 @@ import Axios from "../../../actions/Index";
 function HeaderSection (data) {
 
     const [allActive, setAllActive]             = useState([
-        { id : 188, val : 'true' },
-        { id : 288, val : 'false' }
+        { id : 1, val : 'true' },
+        { id : 2, val : 'false' }
     ]);
     const [allType, setAllType]                 = useState([
-        { id : 133, val : 'client' },
-        { id : 233, val : 'maintainance_company' }
+        { id : 3, val : 'client' },
+        { id : 4, val : 'maintainance_company' }
     ]);
     const [type, setType]                       = useState('');
     const [active, setActive]                   = useState('');
@@ -21,9 +21,9 @@ function HeaderSection (data) {
     const changeActive = (event) => {
         setActive(event.target.value)
         const dataVal = {
-            "active"        : event.target.value,
-            "type"          : type,
-            "search"        : search,
+            active        : event.target.value,
+            type          : type,
+            search        : search,
         }
         Axios(dataVal, data.data.page === 'plans' ? 'plans' : 'organizations', 'GET').then((response) => {
             console.log('response active ---------', response)
@@ -35,9 +35,9 @@ function HeaderSection (data) {
     const changeType = (event) => {
         setType(event.target.value)
         const dataVal = {
-            "active"        : active,
-            "type"          : event.target.value,
-            "search"        : search,
+            active        : active,
+            type          : event.target.value,
+            search        : search,
         }
         Axios(dataVal, data.data.page === 'plans' ? 'plans' : 'organizations', 'GET').then((response) => {
             console.log('response active ---------', response)
