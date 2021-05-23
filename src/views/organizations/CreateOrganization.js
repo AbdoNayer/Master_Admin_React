@@ -18,6 +18,7 @@ import ImageUploading from "react-images-uploading";
 import { FiPlusSquare } from "react-icons/fi";
 import Axios from "../../actions/Index";
 import Loading from "../../containers/Loader";
+import {FaCircle} from "react-icons/fa";
 
 const CreateOrganization = (data) => {
   const [errToasts, setErrToasts] = useState(false);
@@ -479,29 +480,21 @@ const CreateOrganization = (data) => {
                         <h6>Choose one of this plan to subscribe to :</h6>
                       </CCol>
                       {plans.map((pack) => (
-                          <CCol xs="12" sm="6" md="3">
+                          <CCol xs="12" sm="6" md="3" onClick={() => chickPack(pack.id)}>
                             <CCard className="mt-3 mb-3">
                               <CCardHeader>
-                                {pack.name}
-                                <div className="card-header-actions">
-                                  <CFormGroup
-                                      variant="custom-radio"
-                                      inline
-                                      className="p-0 m-0"
-                                  >
-                                    <CInputRadio
-                                        custom
-                                        id="inline-radio"
-                                        name="inline-radios"
-                                        value={planId}
-                                        defaultChecked={planId}
-                                        onClick={() => chickPack(pack.id)}
-                                    />
-                                    <CLabel
-                                        variant="custom-checkbox"
-                                        htmlFor="inline-radio"
-                                    />
-                                  </CFormGroup>
+                                <div className='flex flexSpace'>
+                                  <h6 className='m-0'>
+                                    {pack.name}
+                                  </h6>
+                                  <span className='pointCircle flex flexItemCenter flexContentCenter'>
+                                    {
+                                      pack.id === planId ?
+                                          <FaCircle/>
+                                          :
+                                          null
+                                    }
+                                  </span>
                                 </div>
                               </CCardHeader>
                               <CCardBody className="text-center">
