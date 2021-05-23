@@ -168,10 +168,10 @@ const CreatePlan = (data) => {
         descriptionAr: disAr,
         descriptionEn: disEn,
         isCustom: isCustom,
-        userCapacity: count,
-        pricePerMonth: priceMonth,
         planType: planType,
-        pricePerYear: priceYear,
+        pricePerMonth: parseInt(priceMonth),
+        pricePerYear: parseInt(priceYear),
+        userCapacity: parseInt(count),
         modules: selectedModules,
       };
 
