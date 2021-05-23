@@ -94,6 +94,7 @@ const Organizations = () => {
             title: "organization list",
             add: "New Organization",
             url: "/organizations/createOrganization",
+            namePage: "organizations",
           }}
         />
         <BodySection

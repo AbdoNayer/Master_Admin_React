@@ -30,7 +30,7 @@ function SubscriptionsPlan (data) {
                                         <span className=''>plan</span>
                                     </CCol>
                                     <CCol xs='12' md='12'>
-                                        <CLabel htmlFor="date-input">started at :</CLabel>
+                                        <CLabel htmlFor="date-input">installation type :</CLabel>
                                         <CInput
                                             className       = 'mb-3'
                                             value           = {data ? data.data.installationType : 'no installation type'}

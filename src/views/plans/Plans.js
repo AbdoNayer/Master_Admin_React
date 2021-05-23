@@ -88,6 +88,7 @@ const Plans = () => {
                     title: "plan list",
                     add: "new plan",
                     url: "/plans/createPlan",
+                    namePage: "plans",
                   }}
                 />
                 <BodySection

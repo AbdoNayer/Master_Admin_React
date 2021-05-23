@@ -9,7 +9,7 @@ function InfoOrganization (data) {
             <CCol xs="12" md="12">
                 <CCard>
                     <CCardHeader className='mb-5 p-4 flex flexItemCenter flexSpace'>
-                        <h6>Organization Details :</h6>i
+                        <h6>Organization Details :</h6>
                         <CButton color='info'>
                             <span className='mr-1 ml-1'>{data ? data.data.organizationType : ''}</span>
                         </CButton>

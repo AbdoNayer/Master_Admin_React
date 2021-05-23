@@ -19,14 +19,15 @@ function HeaderSection (data) {
 
 
     const changeActive = (event) => {
+        console.log('page ----', data.data)
         setActive(event.target.value)
         const dataVal = {
             active        : event.target.value,
             type          : type,
             search        : search,
         }
-        Axios(dataVal, data.data.page === 'plans' ? 'plans' : 'organizations', 'GET').then((response) => {
-            console.log('response active ---------', response)
+        Axios(dataVal, data.data.namePage === 'plans' ? 'plans' : 'organizations', 'GET').then((response) => {
+            console.log('response active ---------', response.data)
         }).catch((err) => {
             console.log('err ---', err)
         });
@@ -39,8 +40,8 @@ function HeaderSection (data) {
             type          : event.target.value,
             search        : search,
         }
-        Axios(dataVal, data.data.page === 'plans' ? 'plans' : 'organizations', 'GET').then((response) => {
-            console.log('response active ---------', response)
+        Axios(dataVal, data.data.namePage === 'plans' ? 'plans' : 'organizations', 'GET').then((response) => {
+            console.log('response active ---------', response.data)
         }).catch((err) => {
             console.log('err ---', err)
         });
