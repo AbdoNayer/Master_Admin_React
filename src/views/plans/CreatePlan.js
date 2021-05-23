@@ -98,7 +98,7 @@ const CreatePlan = (data) => {
     setIsCustom(name);
   }
 
-  const changeCountry = (event) => {
+  const changePlanType = (event) => {
     setPlanType(event.target.value);
   };
 
@@ -325,9 +325,8 @@ const CreatePlan = (data) => {
                   <CSelect
                     custom
                     className="mb-3"
-                    name="country"
-                    id="country"
-                    onChange={changeCountry.bind(this)}
+                    name="planType"
+                    onChange={changePlanType.bind(this)}
                     value={planType}
                   >
                     <option selected disabled>

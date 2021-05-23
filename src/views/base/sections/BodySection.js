@@ -6,9 +6,11 @@ import Axios from '../../../actions/Index'
 import Loading from '../../../containers/Loader'
 import NoData from '../../../containers/NoData'
 
-function BodySection (data) {
+function BodySection ({ data }) {
 
-    const [usersData, setUsersData]               = useState([]);
+    console.log('data *************', data)
+
+    const [usersData, setUsersData]               = useState( []);
     const [loader, setLoader]                     = useState(true);
     const [fieldOrganiz, setFieldOrganiz]         = useState([
         'logo',
@@ -18,7 +20,7 @@ function BodySection (data) {
         'active',
         'actions'
     ]);
-    const [fieldPlan, setFieldPlan]                = useState([
+    const [fieldPlan, setFieldPlan]               = useState([
         'name',
         'pricePerMonth',
         'pricePerYear',
@@ -29,24 +31,32 @@ function BodySection (data) {
 
     function fetchData(){
 
-        Axios(null, data.data.page === 'plans' ? 'plans' : 'organizations', 'GET').then((response) => {
-            setUsersData(response.data)
+        if (data.newData.length > 0) {
             setLoader(false)
-        }).catch((err) => {
-            console.log('err ---', err)
-            setLoader(false)
-        });
+        }else {
+            Axios(null, data.page === 'plans' ? 'plans' : 'organizations', 'GET').then((response) => {
+                setUsersData(response.data)
+                setLoader(false)
+            }).catch((err) => {
+                console.log('err ---', err)
+                setLoader(false)
+            });
+        }
+
 
     }
 
     useEffect(() => {
         fetchData();
-    }, [setUsersData]);
+        if (data.newData) {
+            setUsersData(data.newData);
+        }
+    }, [setUsersData, data]);
 
     function onRemove (id, i){
 
         setLoader(true)
-        Axios(null, data.data.page === 'plans' ? 'plans/' + id : 'organizations/' + id, 'DELETE').then((response) => {
+        Axios(null, data.page === 'plans' ? 'plans/' + id : 'organizations/' + id, 'DELETE').then((response) => {
             setLoader(false)
             usersData.splice(i, 1);
         }).catch((err) => {
@@ -54,7 +64,7 @@ function BodySection (data) {
             setLoader(false)
         });
 
-    };
+    }
 
     function loadBody (){
         if (loader){
@@ -75,7 +85,7 @@ function BodySection (data) {
                                 <thead>
                                 <tr>
                                     {
-                                        data.data.page === 'organizations' ?
+                                        data.page === 'organizations' ?
                                             fieldOrganiz.map((valName, i) => (
                                                 <th className="" key={i}>{valName}</th>
                                             ))
@@ -89,7 +99,7 @@ function BodySection (data) {
                                 <tbody>
                                 {
                                     usersData.map((infoUser , i) => (
-                                        data.data.page === 'organizations' ?
+                                        data.page === 'organizations' ?
                                             <tr className="" key={i}>
                                                 <td className=""><img src={infoUser.logo} alt="" className='logoTab'/></td>
                                                 <td className="">{infoUser.name}</td>

@@ -13,7 +13,9 @@ import BodySection from "../base/sections/BodySection";
 import Axios from "../../actions/Index";
 
 const Organizations = () => {
+
   const [statistics, setStatistics] = useState({});
+  const [newDataList, setNewDataList] = useState([]);
 
   useEffect(() => {
 
@@ -90,17 +92,21 @@ const Organizations = () => {
       </CRow>
       <CCard>
         <HeaderSection
-          data={{
-            title: "organization list",
-            add: "New Organization",
-            url: "/organizations/createOrganization",
-            namePage: "organizations",
-          }}
+            dataNew={(data)=> {
+                setNewDataList(data)
+            }}
+            data={{
+                title: "organization list",
+                add: "New Organization",
+                url: "/organizations/createOrganization",
+                namePage: "organizations",
+            }}
         />
         <BodySection
-          data={{
-            page: "organizations",
-          }}
+            data={{
+                page: "organizations",
+                newData : newDataList,
+            }}
         />
       </CCard>
     </>

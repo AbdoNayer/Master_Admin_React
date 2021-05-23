@@ -9,6 +9,7 @@ import Axios from "../../actions/Index";
 const Plans = () => {
 
     const [statistics, setStatistics] = useState({});
+    const [newDataList, setNewDataList] = useState([]);
 
     useEffect(() => {
         async function fetchData() {
@@ -84,17 +85,21 @@ const Plans = () => {
             </CRow>
             <CCard>
                 <HeaderSection
-                  data={{
-                    title: "plan list",
-                    add: "new plan",
-                    url: "/plans/createPlan",
-                    namePage: "plans",
-                  }}
+                    dataNew={(data)=> {
+                        setNewDataList(data)
+                    }}
+                    data={{
+                        title: "plan list",
+                        add: "new plan",
+                        url: "/plans/createPlan",
+                        namePage: "plans",
+                    }}
                 />
                 <BodySection
-                  data={{
-                    page: "plans",
-                  }}
+                    data={{
+                        page: "plans",
+                        newData : newDataList,
+                    }}
                 />
             </CCard>
         </>
