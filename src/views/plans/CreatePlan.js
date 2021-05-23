@@ -91,7 +91,6 @@ const CreatePlan = (data) => {
     } else {
       arr.push(id);
     }
-
     setSelectedModules(arr);
   };
 
@@ -351,7 +350,7 @@ const CreatePlan = (data) => {
                       <h3 className="m-0">{m.nameEn}</h3>
                     </div>
                     <CFormGroup row>
-                      {m.children.map((pack) => (
+                      {m.children.map((pack, i) => (
                         <CCol key={pack.id} xs="12" sm="6" md="3">
                           <CCard
                             onClick={() => {
@@ -360,11 +359,14 @@ const CreatePlan = (data) => {
                             className="mt-3 mb-3 cardBlock"
                           >
                             <CCardBody className="text-center position-relative flexContentCenter flex flexItemCenter">
-                              {selectedModules.indexOf(pack.id) > 0 && (
-                                <div className="chick">
-                                  <FiCheck size={20} />
-                                </div>
-                              )}
+                              {
+                                selectedModules.find(item => item === pack.id)?
+                                    <div className="chick">
+                                      <FiCheck size={20} />
+                                    </div>
+                                    :
+                                    null
+                              }
                               <h4 className="text-dark">{pack.nameEn}</h4>
                             </CCardBody>
                           </CCard>
