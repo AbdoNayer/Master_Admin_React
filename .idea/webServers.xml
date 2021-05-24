@@ -16,6 +16,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="de8439e1-d363-4715-8cc0-0e3ba66082b4" name="diamond" url="http://185.221.216.112">
+        <fileTransfer rootFolder="/public_html" host="185.221.216.112" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

@@ -10,8 +10,8 @@ function HeaderSection ({data, dataNew}) {
         { id : false, val : 'false' }
     ]);
     const [allType, setAllType]                 = useState([
-        { id : 3, val : 'client' },
-        { id : 4, val : 'maintenance_company' }
+        { id : 3, val : data.namePage === 'plans' ? 'standard' : 'client' },
+        { id : 4, val : data.namePage === 'plans' ? 'standalone' : 'maintenance_company' }
     ]);
     const [type, setType]                       = useState('');
     const [active, setActive]                   = useState('');
@@ -52,7 +52,6 @@ function HeaderSection ({data, dataNew}) {
                             <span>{data.add}</span>
                         </CButton>
                         <CSelect name="active" id="active" className='mr-1 ml-1 w-auto' onChange={changeActive.bind(this)}>
-                            <option selected disabled>active</option>
                             {
                                 allActive.map(item => (
                                     <option key={item.val} value={item.id}>
@@ -62,7 +61,6 @@ function HeaderSection ({data, dataNew}) {
                             }
                         </CSelect>
                         <CSelect name="customer" id="customer" className='mr-1 ml-1 w-auto' onChange={changeType.bind(this)}>
-                            <option selected disabled>type</option>
                             {
                                 allType.map(item => (
                                     <option key={item.id} value={item.val}>

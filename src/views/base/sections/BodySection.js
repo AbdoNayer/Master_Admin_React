@@ -34,7 +34,7 @@ function BodySection ({ data }) {
         if (data.newData.length > 0) {
             setLoader(false)
         }else {
-            Axios(null, data.page === 'plans' ? 'plans' : 'organizations', 'GET').then((response) => {
+            Axios(null, data.page === 'plans' ? `plans?active=${true}&type=${'standard'}` : 'organizations', 'GET').then((response) => {
                 setUsersData(response.data)
                 setLoader(false)
             }).catch((err) => {
