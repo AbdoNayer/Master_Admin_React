@@ -30,6 +30,27 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="46dc6417-75c0-4fc2-80d1-414673511980" name="spicy" url="http://185.221.216.112">
+        <fileTransfer rootFolder="/public_html" host="185.221.216.112" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="6412aeb6-ece1-47ef-a5dd-d9cccdc94407" name="flagrs" url="http://185.221.216.112">
+        <fileTransfer rootFolder="/public_html" host="185.221.216.112" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="cd075c23-def0-4107-98e7-a1e4a29d05e5" name="bttksa" url="http://185.221.216.112">
+        <fileTransfer rootFolder="/public_html" host="185.221.216.112" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>
