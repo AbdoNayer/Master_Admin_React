@@ -1,33 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {
-  CBadge,
-  CButton,
-  CButtonGroup,
-  CCard,
-  CCardBody,
-  CCardFooter,
-  CCardHeader,
-  CCol,
-  CProgress,
-  CRow,
-  CCallout,
-} from "@coreui/react";
-import CIcon from "@coreui/icons-react";
+import { CButton, CButtonGroup, CCard, CCardBody, CCol, CRow } from "@coreui/react";
 import Axios from "../../actions/Index";
-import {
-  FiCheckSquare,
-  FiList,
-  FiMinusSquare,
-  FiFileText,
-  FiSettings,
-} from "react-icons/fi";
+import { FiCheckSquare, FiList, FiMinusSquare, FiFileText, FiSettings } from "react-icons/fi";
 import Statistics from "../base/statistics/Statistics";
 import MainChart from "./MainChart";
 
-// const WidgetsDropdown = lazy(() => import("../widgets/WidgetsDropdown.js"));
-// const WidgetsBrand = lazy(() => import("../widgets/WidgetsBrand.js"));
-
 const Dashboard = () => {
+
   const [statistics, setStatistics] = useState({});
   const [by, setBy] = useState("Day");
 
@@ -42,14 +21,6 @@ const Dashboard = () => {
       console.log("err ---", error);
     }
   }, []);
-
-  // "activeCount": 12,
-  // "passiveCount": 7,
-  // "clientsCount": 16,
-  // "companiesCount": 3,
-  // "standardCount": 3,
-  // "standaloneCount": 16,
-  // "allCount": 19,
 
   return (
     <>
@@ -157,7 +128,6 @@ const Dashboard = () => {
         </CCol>
       </CRow>
 
-      {/* <WidgetsDropdown /> */}
       <CCard>
         <CCardBody>
           <CRow>
@@ -187,8 +157,6 @@ const Dashboard = () => {
           <MainChart style={{ height: "300px", marginTop: "40px" }} />
         </CCardBody>
       </CCard>
-
-      {/* <WidgetsBrand withCharts /> */}
     </>
   );
 };

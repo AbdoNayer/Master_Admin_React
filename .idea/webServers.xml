@@ -23,6 +23,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="9426ef31-2086-4049-90f8-d2871ff00f42" name="halls" url="http://185.221.216.112">
+        <fileTransfer rootFolder="/public_html" host="185.221.216.112" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

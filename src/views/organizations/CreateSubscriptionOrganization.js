@@ -292,7 +292,7 @@ const CreateOrganization = (data) => {
                                 className="mr-2 ml-2"
                                 onClick={() => onSubmit()}
                             >
-                                create organization
+                                create subscription
                             </CButton>
                         </div>
                     </CCard>

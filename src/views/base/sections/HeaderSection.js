@@ -5,17 +5,19 @@ import Axios from "../../../actions/Index";
 
 function HeaderSection ({data, dataNew}) {
 
-    const [allActive, setAllActive]             = useState([
-        { id : true, val : 'true' },
-        { id : false, val : 'false' }
-    ]);
-    const [allType, setAllType]                 = useState([
+    const allActive = [
+        { value : true, name : 'Active' },
+        { value : false, name : 'Passive' }
+    ]
+
+    const allType = [
         { id : 3, val : data.namePage === 'plans' ? 'standard' : 'client' },
         { id : 4, val : data.namePage === 'plans' ? 'standalone' : 'maintenance_company' }
-    ]);
+    ]
+
     const [type, setType]                       = useState('');
     const [active, setActive]                   = useState('');
-    const [search, setSearch]                   = useState('');
+    // const [search, setSearch]                   = useState('');
 
 
     const changeActive = (event) => {
